@@ -13,14 +13,17 @@ public class Cita {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id; // Usamos Integer para permitir valores nulos si no ha sido guardado aún
 
-    @Column(name = "idServicio", nullable = false)
-    private Integer idServicio;
+    @ManyToOne
+    @JoinColumn(name = "idServicio", nullable = false)
+    private Servicio servicio;
 
-    @Column(name = "idBarbero", nullable = false)
-    private Integer idBarbero;
+    @ManyToOne
+    @JoinColumn(name = "idBarbero", nullable = false)
+    private Barbero barbero;
 
-    @Column(name = "idCliente", nullable = false)
-    private Integer idCliente;
+    @ManyToOne
+    @JoinColumn(name = "idCliente", nullable = false)
+    private Cliente cliente;
 
     @Column(name = "fecha", nullable = false)
     private LocalDate fecha;
@@ -39,28 +42,23 @@ public class Cita {
         this.id = id;
     }
 
-    public Integer getIdServicio() {
-        return idServicio;
+    public Servicio getServicio() {
+        return servicio;
     }
 
-    public void setIdServicio(Integer idServicio) {
-        this.idServicio = idServicio;
+    public void setServicio(Servicio servicio) {
+        this.servicio = servicio;
     }
 
-    public Integer getIdBarbero() {
-        return idBarbero;
+    public Barbero getBarbero() {
+        return barbero;
     }
 
-    public void setIdBarbero(Integer idBarbero) {
-        this.idBarbero = idBarbero;
+    public void setBarbero(Barbero barbero) {
+        this.barbero = barbero;
     }
-
-    public Integer getIdCliente() {
-        return idCliente;
-    }
-
-    public void setIdCliente(Integer idCliente) {
-        this.idCliente = idCliente;
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 
     public LocalDate getFecha() {
