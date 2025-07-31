@@ -1,2 +1,8 @@
+-- Creación de la base de datos si no existe
+CREATE DATABASE "defaultdb";
+
+-- Selección de la base de datos
+USE defaultdb;
+
 -- Inserción de un usuario administrador
 INSERT INTO Administrador (nombreUsuario, password) VALUES ('sysadmin', '12345');
