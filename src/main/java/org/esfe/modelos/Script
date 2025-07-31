@@ -1,0 +1,2 @@
+-- Inserción de un usuario administrador
+INSERT INTO Administrador (nombreUsuario, password) VALUES ('sysadmin', '12345');
