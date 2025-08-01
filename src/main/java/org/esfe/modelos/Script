@@ -5,4 +5,4 @@ CREATE DATABASE "defaultdb";
 USE defaultdb;
 
 -- Inserción de un usuario administrador
-INSERT INTO Administrador (nombreUsuario, password) VALUES ('sysadmin', '12345');
+INSERT INTO Administrador (nombreUsuario, password) VALUES ('sysadmin', '827ccb0eea8a706c4c34a16891f84e7b');
