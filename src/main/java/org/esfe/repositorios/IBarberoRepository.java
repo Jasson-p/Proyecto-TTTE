@@ -17,5 +17,5 @@ public interface IBarberoRepository extends JpaRepository<Barbero, Integer> {
 
     Optional<Barbero> findByTelefonoIgnoreCaseOrderByTelefonoAsc(String telefono);
 
-    Page<Barbero> buscarTodosPaginados(Pageable pageable);
+
 }

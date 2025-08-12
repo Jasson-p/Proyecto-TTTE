@@ -17,6 +17,8 @@ public interface IServicioService {
 
     List<Servicio> buscarPorNombreyPrecio();
 
+    List<Servicio> buscarPorNombreyPrecio(String nombre, Double precio);
+
     Servicio crearOEditar(Servicio servicio);
 
     void eliminarPorId(Integer id);

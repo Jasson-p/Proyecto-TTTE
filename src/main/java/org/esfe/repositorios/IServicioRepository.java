@@ -10,9 +10,13 @@ import java.util.Optional;
 
 public interface IServicioRepository extends JpaRepository<Servicio, Integer>{
 
-    Page<Servicio> buscarTodosPaginados(Pageable pageable);
 
-    Optional<Servicio> findByIdOrderIdAsc(Integer id);
 
-    List<Servicio> findByNombreContainingIgnoreCaseAndPrecioGreaterThanOrderByNameAsc();
+
+
+
+
+    List<Servicio> findByNombreContainingIgnoreCaseAndPrecioGreaterThanOrderByNombreAsc(String nombre, Double precio);
+
+    Optional<Servicio> findByIdOrderByIdAsc(Integer id);
 }

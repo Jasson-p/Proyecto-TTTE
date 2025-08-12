@@ -18,5 +18,5 @@ public interface IClienteRepository extends JpaRepository<Cliente, Integer> {
 
     Optional<Cliente> findByTelefonoIgnoreCaseOrderByTelefonoAsc(String telefono);
 
-    Page<Cliente> buscarTodosPaginados(Pageable pageable);
+
 }
