@@ -30,8 +30,14 @@ public class ServicioService implements IServicioService {
 
     @Override
     public Optional<Servicio> buscarPorId(Integer id) {
-        return servicioRepository.findById(id);
+        return servicioRepository.findByIdOrderIdAsc(id);
     }
+
+    @Override
+    public List<Servicio> buscarPorNombreyPrecio() {
+        return servicioRepository.findByNombreContainingIgnoreCaseAndPrecioGreaterThanOrderByNameAsc();
+    }
+
 
     @Override
     public Servicio crearOEditar(Servicio servicio) {

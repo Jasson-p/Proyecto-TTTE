@@ -15,6 +15,8 @@ public interface IServicioService {
 
     Optional<Servicio> buscarPorId(Integer id);
 
+    List<Servicio> buscarPorNombreyPrecio();
+
     Servicio crearOEditar(Servicio servicio);
 
     void eliminarPorId(Integer id);

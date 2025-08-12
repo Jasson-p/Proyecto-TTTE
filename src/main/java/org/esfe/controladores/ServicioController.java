@@ -42,4 +42,19 @@ public class ServicioController {
 
         return "servicio/index";
     }
+
+    /*metodo para buscar por nombre*/
+   /* @GetMapping("/buscar")
+    public String buscarPorNombre(@RequestParam("nombre") String nombre, Model model) {
+        Optional<Servicio> servicioEncontrado = servicioService.buscarPorNombre(nombre);
+
+        if (servicioEncontrado.isPresent()) {
+            model.addAttribute("servicio", servicioEncontrado.get());
+        } else {
+            model.addAttribute("mensaje", "No se encontró ningún servicio con ese nombre.");
+        }
+
+        // Devolver una vista que muestre el resultado
+        return "servicio/buscar";
+    }*/
 }
