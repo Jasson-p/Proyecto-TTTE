@@ -14,6 +14,13 @@ public interface IBarberoService {
 
     Optional<Barbero> buscarPorId(Integer id);
 
+    List<Barbero> buscarPorNombreApellidoOTelefono(String nombre, String apellido, String telefono);
+
+
+    List<Barbero> buscarPorNombreYApellidoConteniendo(String nombre, String apellido);
+
+    Optional<Barbero> buscarPorTelefono(String telefono);
+
     Barbero crearOEditar(Barbero barbero);
 
     void eliminarPorId(Integer id);
