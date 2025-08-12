@@ -27,15 +27,26 @@ public class ClienteService implements IClienteService {
         return clienteRepository.findAll();
     }
 
+
+
     @Override
     public Optional<Cliente> buscarPorId(Integer id) {
-        return clienteRepository.findById(id);
-
+        return clienteRepository.findByIdOrderByIdAsc(id);
     }
 
     @Override
     public List<Cliente> buscarPorNombreApellidoOTelefono(String nombre, String apellido, String telefono) {
-        return clienteRepository.findByNombreOrApellidoOrTelefono(nombre, apellido, telefono);
+        return List.of();
+    }
+
+    @Override
+    public List<Cliente> buscarPorNombreYApellidoConteniendo(String nombre, String apellido) {
+        return clienteRepository.findByNombreContainingIgnoreCaseAndApellidoContainingIgnoreCaseOrderByNombreAsc(nombre, apellido);
+    }
+
+    @Override
+    public Optional<Cliente> buscarPorTelefono(String telefono) {
+        return clienteRepository.findByTelefonoIgnoreCaseOrderByTelefonoAsc(telefono);
     }
 
     @Override

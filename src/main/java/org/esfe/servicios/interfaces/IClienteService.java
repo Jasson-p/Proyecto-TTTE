@@ -17,6 +17,10 @@ public interface IClienteService {
     List<Cliente> buscarPorNombreApellidoOTelefono(String nombre, String apellido, String telefono);
 
 
+    List<Cliente> buscarPorNombreYApellidoConteniendo(String nombre, String apellido);
+
+    Optional<Cliente> buscarPorTelefono(String telefono);
+
     Cliente crearOEditar(Cliente cliente);
 
     void eliminarPorId(Integer id);
