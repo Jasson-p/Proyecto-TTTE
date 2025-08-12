@@ -1,7 +1,6 @@
 package org.esfe.servicios.implementaciones;
 
 import org.esfe.modelos.Cliente;
-import org.esfe.repositorios.IBarberoRepository;
 import org.esfe.repositorios.IClienteRepository;
 import org.esfe.servicios.interfaces.IClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +30,12 @@ public class ClienteService implements IClienteService {
     @Override
     public Optional<Cliente> buscarPorId(Integer id) {
         return clienteRepository.findById(id);
+
+    }
+
+    @Override
+    public List<Cliente> buscarPorNombreApellidoOTelefono(String nombre, String apellido, String telefono) {
+        return clienteRepository.findByNombreOrApellidoOrTelefono(nombre, apellido, telefono);
     }
 
     @Override

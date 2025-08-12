@@ -1,6 +1,5 @@
 package org.esfe.servicios.interfaces;
 
-import org.esfe.modelos.Barbero;
 import org.esfe.modelos.Cliente;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,6 +13,9 @@ public interface IClienteService {
     List<Cliente> obtenerTodos();
 
     Optional<Cliente> buscarPorId(Integer id);
+
+    List<Cliente> buscarPorNombreApellidoOTelefono(String nombre, String apellido, String telefono);
+
 
     Cliente crearOEditar(Cliente cliente);
 

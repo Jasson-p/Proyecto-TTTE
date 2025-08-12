@@ -29,7 +29,22 @@ public class BarberoService implements IBarberoService {
 
     @Override
     public Optional<Barbero> buscarPorId(Integer id) {
-        return barberoRepository.findById(id);
+        return barberoRepository.findByIdOrderByIdAsc(id);
+    }
+
+    @Override
+    public List<Barbero> buscarPorNombreApellidoOTelefono(String nombre, String apellido, String telefono) {
+        return List.of();
+    }
+
+    @Override
+    public List<Barbero> buscarPorNombreYApellidoConteniendo(String nombre, String apellido) {
+        return barberoRepository.findByNombreContainingIgnoreCaseAndApellidoContainingIgnoreCaseOrderByNombreAsc(nombre, apellido);
+    }
+
+    @Override
+    public Optional<Barbero> buscarPorTelefono(String telefono) {
+        return barberoRepository.findByTelefonoIgnoreCaseOrderByTelefonoAsc(telefono);
     }
 
     @Override
