@@ -17,10 +17,6 @@ public class ClienteService implements IClienteService {
     @Autowired
     private IClienteRepository clienteRepository;
 
-    @Override
-    public Page<Cliente> buscarTodosPaginados(Pageable pageable) {
-        return clienteRepository.findAll(pageable);
-    }
 
     @Override
     public List<Cliente> obtenerTodos() {
@@ -41,7 +37,12 @@ public class ClienteService implements IClienteService {
 
     @Override
     public List<Cliente> buscarPorNombreYApellidoConteniendo(String nombre, String apellido) {
-        return clienteRepository.findByNombreContainingIgnoreCaseAndApellidoContainingIgnoreCaseOrderByNombreAsc(nombre, apellido);
+        return List.of();
+    }
+
+    @Override
+    public Page<Cliente> buscarPorNombreYApellidoConteniendo(String nombre, String apellido, Pageable pageable) {
+        return clienteRepository.findByNombreContainingIgnoreCaseAndApellidoContainingIgnoreCase(nombre, apellido, pageable);
     }
 
     @Override

@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface IClienteService {
-    Page<Cliente> buscarTodosPaginados(Pageable pageable);
 
     List<Cliente> obtenerTodos();
 
@@ -18,6 +17,8 @@ public interface IClienteService {
 
 
     List<Cliente> buscarPorNombreYApellidoConteniendo(String nombre, String apellido);
+
+    Page<Cliente> buscarPorNombreYApellidoConteniendo(String nombre, String apellido, Pageable pageable);
 
     Optional<Cliente> buscarPorTelefono(String telefono);
 
