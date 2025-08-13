@@ -10,7 +10,7 @@ import java.util.Optional;
 
 public interface IServicioService {
 
-    Page<Barbero> buscarPorNombreYApellidoConteniendo(String nombre, String apellido, Pageable pageable);
+    Page<Servicio> buscarPorNombreYPrecioConteniendo(String nombre, Double precio, Pageable pageable);
 
     List<Servicio> obtenerTodos();
 

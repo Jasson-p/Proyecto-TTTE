@@ -1,6 +1,7 @@
 package org.esfe.servicios.implementaciones;
 
-import org.esfe.modelos.Barbero;
+
+
 import org.esfe.modelos.Servicio;
 import org.esfe.servicios.interfaces.IServicioService;
 import org.esfe.repositorios.IServicioRepository;
@@ -21,7 +22,7 @@ public class ServicioService implements IServicioService {
 
 
     @Override
-    public Page<Barbero> buscarPorNombreYApellidoConteniendo(String nombre, String apellido, Pageable pageable) {
+    public Page<Servicio> buscarPorNombreYPrecioConteniendo(String nombre, Double precio, Pageable pageable) {
         return null;
     }
 
