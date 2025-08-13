@@ -33,8 +33,8 @@ public class AdministradorService implements IAdministradorService {
     }
 
     @Override
-    public Optional<Administrador> buscarPorNombre(String nombre){
-        return  administradorRepository.findByNombreContainingIgnoreCaseOrderByNombreAsc(nombre);
+    public Optional<Administrador> buscarPorNombre(String nombreUsuario){
+        return  administradorRepository.findByNombreUsuarioContainingIgnoreCaseOrderByNombreUsuarioAsc(nombreUsuario);
     }
 
     @Override

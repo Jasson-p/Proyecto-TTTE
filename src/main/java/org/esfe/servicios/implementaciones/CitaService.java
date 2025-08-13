@@ -27,8 +27,18 @@ public class CitaService implements ICitaService {
     }
 
     @Override
+    public List<Cita> buscarPorNombresDeServicioYCliente() {
+        return List.of();
+    }
+
+    @Override
     public Optional<Cita> buscarPorId(Integer id) {
-        return citaRepository.findById(id);
+        return citaRepository.findByIdOrderByIdAsc(id);
+    }
+
+    @Override
+    public List<Cita> buscarPorNombresDeServicioYCliente(String nombreServicio, String nombreCliente) {
+        return citaRepository.findByServicioNombreContainingIgnoreCaseAndClienteNombreContainingIgnoreCase(nombreServicio, nombreCliente);
     }
 
     @Override
