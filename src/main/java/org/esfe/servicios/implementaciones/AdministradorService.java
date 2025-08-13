@@ -18,11 +18,6 @@ public class AdministradorService implements IAdministradorService {
     private IAdministradorRepository administradorRepository;
 
     @Override
-    public Page<Administrador> buscarTodosPaginados(Pageable pageable) {
-        return administradorRepository.findAll(pageable);
-    }
-
-    @Override
     public List<Administrador> obtenerTodos() {
         return administradorRepository.findAll();
     }
@@ -33,8 +28,8 @@ public class AdministradorService implements IAdministradorService {
     }
 
     @Override
-    public Optional<Administrador> buscarPorNombre(String nombreUsuario){
-        return  administradorRepository.findByNombreUsuarioContainingIgnoreCaseOrderByNombreUsuarioAsc(nombreUsuario);
+    public Page<Administrador> buscarPorNombre(String nombreUsuario, Pageable pageable){
+        return  administradorRepository.findByNombreUsuarioContainingIgnoreCase(nombreUsuario,  pageable);
     }
 
     @Override

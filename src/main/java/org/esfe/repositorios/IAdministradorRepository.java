@@ -1,6 +1,8 @@
 package org.esfe.repositorios;
 
 import org.esfe.modelos.Administrador;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
@@ -9,6 +11,5 @@ public interface IAdministradorRepository extends JpaRepository<Administrador, I
     Optional<Administrador> findByIdOrderByIdAsc(Integer id);
 
 
-
-    Optional<Administrador> findByNombreUsuarioContainingIgnoreCaseOrderByNombreUsuarioAsc(String nombreUsuario);
+    Page<Administrador> findByNombreUsuarioContainingIgnoreCase(String nombreUsuario, Pageable pageable);
 }

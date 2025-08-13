@@ -10,13 +10,12 @@ import java.util.Optional;
 
 public interface IAdministradorService {
 
-    Page<Administrador> buscarTodosPaginados(Pageable pageable);
 
     List<Administrador> obtenerTodos();
 
     Optional<Administrador> buscarPorId(Integer id);
 
-    Optional<Administrador> buscarPorNombre(String nombre);
+    Page<Administrador> buscarPorNombre(String nombreUsuario, Pageable pageable);
 
     Administrador crearOEditar(Administrador administrador);
 
