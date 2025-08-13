@@ -17,11 +17,6 @@ public class CitaService implements ICitaService {
     private ICitaRepository citaRepository;
 
     @Override
-    public Page<Cita> buscarTodosPaginados(Pageable pageable) {
-        return citaRepository.findAll(pageable);
-    }
-
-    @Override
     public List<Cita> obtenerTodos() {
         return citaRepository.findAll();
     }
@@ -37,8 +32,8 @@ public class CitaService implements ICitaService {
     }
 
     @Override
-    public List<Cita> buscarPorNombresDeServicioYCliente(String nombreServicio, String nombreCliente) {
-        return citaRepository.findByServicioNombreContainingIgnoreCaseAndClienteNombreContainingIgnoreCase(nombreServicio, nombreCliente);
+    public Page<Cita> buscarPorNombresDeServicioYCliente(String nombreServicio, String nombreCliente, Pageable pageable) {
+        return citaRepository.findByServicioNombreContainingIgnoreCaseAndClienteNombreContainingIgnoreCase(nombreServicio, nombreCliente, pageable);
     }
 
     @Override

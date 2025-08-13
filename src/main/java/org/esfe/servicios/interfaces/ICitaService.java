@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ICitaService {
-    Page<Cita> buscarTodosPaginados(Pageable pageable);
+
 
     List<Cita> obtenerTodos();
 
@@ -19,7 +19,7 @@ public interface ICitaService {
     Optional<Cita> buscarPorId(Integer id);
 
 
-    List<Cita> buscarPorNombresDeServicioYCliente(String nombreServicio, String nombreCliente);
+    Page<Cita> buscarPorNombresDeServicioYCliente(String nombreServicio, String nombreCliente, Pageable  pageable);
 
     Cita crearOEditar(Cita cita);
 
