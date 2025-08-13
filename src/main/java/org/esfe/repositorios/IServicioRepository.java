@@ -5,7 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
+
 import java.util.Optional;
 
 public interface IServicioRepository extends JpaRepository<Servicio, Integer>{
@@ -16,7 +16,7 @@ public interface IServicioRepository extends JpaRepository<Servicio, Integer>{
 
 
 
-    List<Servicio> findByNombreContainingIgnoreCaseAndPrecioGreaterThanOrderByNombreAsc(String nombre, Double precio);
+    Page<Servicio> findByNombreContainingIgnoreCaseAndPrecioGreaterThanOrderByNombreAsc(String nombre, Double precio,Pageable pageable);
 
     Optional<Servicio> findByIdOrderByIdAsc(Integer id);
 }

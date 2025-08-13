@@ -1,5 +1,6 @@
 package org.esfe.servicios.implementaciones;
 
+import org.esfe.modelos.Barbero;
 import org.esfe.modelos.Servicio;
 import org.esfe.servicios.interfaces.IServicioService;
 import org.esfe.repositorios.IServicioRepository;
@@ -18,9 +19,10 @@ public class ServicioService implements IServicioService {
     @Autowired
     private IServicioRepository servicioRepository;
 
+
     @Override
-    public Page<Servicio> buscarTodosPaginados(Pageable pageable) {
-        return servicioRepository.findAll(pageable);
+    public Page<Barbero> buscarPorNombreYApellidoConteniendo(String nombre, String apellido, Pageable pageable) {
+        return null;
     }
 
     @Override
@@ -40,7 +42,12 @@ public class ServicioService implements IServicioService {
 
     @Override
     public List<Servicio> buscarPorNombreyPrecio(String nombre, Double precio) {
-        return servicioRepository.findByNombreContainingIgnoreCaseAndPrecioGreaterThanOrderByNombreAsc( nombre,  precio);
+        return null;
+    }
+
+    @Override
+    public Page<Servicio> buscarPorNombreyPrecio(String nombre, Double precio, Pageable pageable) {
+        return servicioRepository.findByNombreContainingIgnoreCaseAndPrecioGreaterThanOrderByNombreAsc( nombre,  precio, pageable);
     }
 
 

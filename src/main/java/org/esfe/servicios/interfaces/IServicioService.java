@@ -9,7 +9,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface IServicioService {
-    Page<Servicio> buscarTodosPaginados(Pageable pageable);
+
+    Page<Barbero> buscarPorNombreYApellidoConteniendo(String nombre, String apellido, Pageable pageable);
 
     List<Servicio> obtenerTodos();
 
@@ -18,6 +19,8 @@ public interface IServicioService {
     List<Servicio> buscarPorNombreyPrecio();
 
     List<Servicio> buscarPorNombreyPrecio(String nombre, Double precio);
+
+    Page<Servicio> buscarPorNombreyPrecio(String nombre, Double precio, Pageable pageable);
 
     Servicio crearOEditar(Servicio servicio);
 
