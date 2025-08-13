@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface IBarberoService {
-    Page<Barbero> buscarTodosPaginados(Pageable pageable);
 
     List<Barbero> obtenerTodos();
 
@@ -18,6 +17,8 @@ public interface IBarberoService {
     List<Barbero> buscarPorNombreApellidoOTelefono(String nombre, String apellido, String telefono);
 
     List<Barbero> buscarPorNombreYApellidoConteniendo(String nombre, String apellido);
+
+    Page<Barbero> buscarPorNombreYApellidoConteniendo(String nombre, String apellido, Pageable pageable);
 
     Optional<Barbero> buscarPorTelefono(String telefono);
 

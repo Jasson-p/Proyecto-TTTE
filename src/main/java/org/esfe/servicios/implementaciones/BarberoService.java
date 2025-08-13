@@ -17,12 +17,7 @@ public class BarberoService implements IBarberoService {
     @Autowired
     private IBarberoRepository barberoRepository;
 
-    @Override
-    public Page<Barbero> buscarTodosPaginados(Pageable pageable) {
-        return barberoRepository.findAll(pageable);
-    }
-
-    @Override
+        @Override
     public List<Barbero> obtenerTodos() {
         return barberoRepository.findAll();
     }
@@ -39,7 +34,13 @@ public class BarberoService implements IBarberoService {
 
     @Override
     public List<Barbero> buscarPorNombreYApellidoConteniendo(String nombre, String apellido) {
-        return barberoRepository.findByNombreContainingIgnoreCaseAndApellidoContainingIgnoreCaseOrderByNombreAsc(nombre, apellido);
+        return null;
+    }
+
+
+    @Override
+    public Page<Barbero> buscarPorNombreYApellidoConteniendo(String nombre, String apellido, Pageable pageable) {
+        return barberoRepository.findByNombreContainingIgnoreCaseAndApellidoContainingIgnoreCase(nombre, apellido, pageable);
     }
 
     @Override
