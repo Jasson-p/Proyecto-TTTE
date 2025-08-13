@@ -29,7 +29,12 @@ public class AdministradorService implements IAdministradorService {
 
     @Override
     public Optional<Administrador> buscarPorId(Integer id) {
-        return administradorRepository.findById(id);
+        return administradorRepository.findByIdOrderByIdAsc(id);
+    }
+
+    @Override
+    public Optional<Administrador> buscarPorNombre(String nombre){
+        return  administradorRepository.findByNombreContainingIgnoreCaseOrderByNombreAsc(nombre);
     }
 
     @Override

@@ -16,6 +16,8 @@ public interface IAdministradorService {
 
     Optional<Administrador> buscarPorId(Integer id);
 
+    Optional<Administrador> buscarPorNombre(String nombre);
+
     Administrador crearOEditar(Administrador administrador);
 
     void eliminarPorId(Integer id);
