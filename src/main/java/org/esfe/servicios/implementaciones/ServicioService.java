@@ -1,7 +1,6 @@
 package org.esfe.servicios.implementaciones;
 
 
-
 import org.esfe.modelos.Servicio;
 import org.esfe.servicios.interfaces.IServicioService;
 import org.esfe.repositorios.IServicioRepository;
@@ -22,11 +21,6 @@ public class ServicioService implements IServicioService {
 
 
     @Override
-    public Page<Servicio> buscarPorNombreYPrecioConteniendo(String nombre, Double precio, Pageable pageable) {
-        return null;
-    }
-
-    @Override
     public List<Servicio> obtenerTodos() {
         return servicioRepository.findAll();
     }
@@ -36,19 +30,13 @@ public class ServicioService implements IServicioService {
         return servicioRepository.findByIdOrderByIdAsc(id);
     }
 
-    @Override
-    public List<Servicio> buscarPorNombreyPrecio() {
-        return List.of();
-    }
 
-    @Override
-    public List<Servicio> buscarPorNombreyPrecio(String nombre, Double precio) {
-        return null;
-    }
+
+
 
     @Override
     public Page<Servicio> buscarPorNombreyPrecio(String nombre, Double precio, Pageable pageable) {
-        return servicioRepository.findByNombreContainingIgnoreCaseAndPrecioGreaterThanOrderByNombreAsc( nombre,  precio, pageable);
+        return servicioRepository.findByNombreContainingIgnoreCaseAndPrecioGreaterThan( nombre,  precio, pageable);
     }
 
 
