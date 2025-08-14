@@ -14,7 +14,7 @@ public interface ICitaService {
     List<Cita> obtenerTodos();
 
 
-    List<Cita> buscarPorNombresDeServicioYCliente();
+
 
     Optional<Cita> buscarPorId(Integer id);
 

@@ -29,11 +29,6 @@ public class ServicioService implements IServicioService {
     public Optional<Servicio> buscarPorId(Integer id) {
         return servicioRepository.findByIdOrderByIdAsc(id);
     }
-
-
-
-
-
     @Override
     public Page<Servicio> buscarPorNombreyPrecio(String nombre, Double precio, Pageable pageable) {
         return servicioRepository.findByNombreContainingIgnoreCaseAndPrecioGreaterThan( nombre,  precio, pageable);

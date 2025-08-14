@@ -21,10 +21,7 @@ public class CitaService implements ICitaService {
         return citaRepository.findAll();
     }
 
-    @Override
-    public List<Cita> buscarPorNombresDeServicioYCliente() {
-        return List.of();
-    }
+
 
     @Override
     public Optional<Cita> buscarPorId(Integer id) {
