@@ -17,10 +17,6 @@ public class AdministradorService implements IAdministradorService {
     @Autowired
     private IAdministradorRepository administradorRepository;
 
-    @Override
-    public List<Administrador> obtenerTodos() {
-        return administradorRepository.findAll();
-    }
 
     @Override
     public Optional<Administrador> buscarPorId(Integer id) {

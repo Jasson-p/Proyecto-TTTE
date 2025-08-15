@@ -10,9 +10,6 @@ import java.util.Optional;
 
 public interface IAdministradorService {
 
-
-    List<Administrador> obtenerTodos();
-
     Optional<Administrador> buscarPorId(Integer id);
 
     Page<Administrador> buscarPorNombre(String nombreUsuario, Pageable pageable);
