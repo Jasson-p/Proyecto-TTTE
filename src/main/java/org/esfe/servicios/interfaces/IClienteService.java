@@ -13,11 +13,6 @@ public interface IClienteService {
 
     Optional<Cliente> buscarPorId(Integer id);
 
-    List<Cliente> buscarPorNombreApellidoOTelefono(String nombre, String apellido, String telefono);
-
-
-    List<Cliente> buscarPorNombreYApellidoConteniendo(String nombre, String apellido);
-
     Page<Cliente> buscarPorNombreYApellidoConteniendo(String nombre, String apellido, Pageable pageable);
 
     Optional<Cliente> buscarPorTelefono(String telefono);

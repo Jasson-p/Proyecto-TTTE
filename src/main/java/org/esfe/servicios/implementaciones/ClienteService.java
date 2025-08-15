@@ -17,27 +17,14 @@ public class ClienteService implements IClienteService {
     @Autowired
     private IClienteRepository clienteRepository;
 
-
     @Override
     public List<Cliente> obtenerTodos() {
         return clienteRepository.findAll();
     }
 
-
-
     @Override
     public Optional<Cliente> buscarPorId(Integer id) {
         return clienteRepository.findByIdOrderByIdAsc(id);
-    }
-
-    @Override
-    public List<Cliente> buscarPorNombreApellidoOTelefono(String nombre, String apellido, String telefono) {
-        return List.of();
-    }
-
-    @Override
-    public List<Cliente> buscarPorNombreYApellidoConteniendo(String nombre, String apellido) {
-        return List.of();
     }
 
     @Override
