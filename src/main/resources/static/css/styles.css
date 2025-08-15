@@ -11289,4 +11289,9 @@ button:active {
   padding: 10px 30px 12px 20px;
 }
 
+ body, html {
+            margin: 0;
+            padding: 0;
+        }
+
 
