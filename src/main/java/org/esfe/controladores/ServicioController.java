@@ -13,7 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Controller
 @RequestMapping("/servicios")
@@ -24,17 +27,31 @@ public class ServicioController {
 
     @GetMapping
     public String index(Model model, @RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size,
-                        @RequestParam(value = "nombre", required = false) String nombre,
-                        @RequestParam(value = "precio", required = false) Double precio) {
+                        @RequestParam("nombre") Optional<String> nombre,
+                        @RequestParam("precio") Optional<Double>precio) {
 
         int currentPage = page.orElse(1) - 1;
         int pageSize = size.orElse(5);
         Pageable pageable = (Pageable) PageRequest.of(currentPage, pageSize);
-
-        Page<Servicio> servicios = servicioService.buscarPorNombreyPrecio(nombre,  precio, pageable);
+        String nombreSearch = nombre.orElse("");
+        Double precioSearch = precio.orElse(null);
+        Page<Servicio> servicios = servicioService.buscarPorNombreyPrecio(nombreSearch,  precioSearch, pageable);
         model.addAttribute("servicios", servicios);
 
-        return "servicios/index";
+        int totalPages = servicios.getTotalPages();
+        if (totalPages > 0) {
+            List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+                    .boxed()
+                    .collect(Collectors.toList());
+            model.addAttribute("pageNumbers", pageNumbers);
+
+
+        }
+        return "servicio/index";
+
+
+
+
 
     }
 }

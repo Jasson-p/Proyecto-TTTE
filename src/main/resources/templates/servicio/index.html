@@ -28,7 +28,7 @@
     </div>
 
     <h1>Listado de servicios</h1>
-    <a th:href="@{/servicios/create}" class="btn btn-outline-primary">Nuevo servicio</a>
+    <a th:href="@{/servicio/create}" class="btn btn-outline-primary">Nuevo servicio</a>
     <table class="table table-striped">
         <thead>
         <tr>
@@ -41,14 +41,14 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="item : ${servicos}">
+        <tr th:each="item : ${servicios}">
             <td th:text="${item.id}"></td>
             <td th:text="${item.nombre}"></td>
             <td th:text="${item.precio}"></td>
             <td>
-                <a th:href="@{/servicios/details/{id} (id = ${item.id}) }" class="btn btn-outline-secondary">Detalles</a> |
-                <a th:href="@{/servicios/edit/{id} (id = ${item.id}) }" class="btn btn-outline-info">Editar</a> |
-                <a th:href="@{/servicios/remove/{id} (id = ${item.id}) }" class="btn btn-outline-danger">Eliminar</a>
+                <a th:href="@{/servicio/details/{id} (id = ${item.id}) }" class="btn btn-outline-secondary">Detalles</a> |
+                <a th:href="@{/servicio/edit/{id} (id = ${item.id}) }" class="btn btn-outline-info">Editar</a> |
+                <a th:href="@{/servicio/remove/{id} (id = ${item.id}) }" class="btn btn-outline-danger">Eliminar</a>
             </td>
         </tr>
         </tbody>
