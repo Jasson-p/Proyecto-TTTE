@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="/layouts/_mainLayout">
+<head>
+    <title>Crear Nuevo Barbero</title>
+</head>
+<div layout:fragment="content">
+
+    <h1>Crear Nuevo Barbero</h1>
+    <hr/>
+    <!-- Formulario de creación de barbero -->
+    <form th:action="@{/barbero/crear}" th:object="${barbero}" method="post">
+
+        <!-- Mensajes de error globales del formulario (si existen) -->
+        <div th:if="${#fields.hasErrors('global')}" class="alert alert-danger" role="alert">
+            <p th:each="err : ${#fields.errors('global')}" th:text="${err}"></p>
+        </div>
+
+        <!-- Campo Nombre -->
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="nombre" class="form-label">Nombre</label>
+                    <input type="text" id="nombre" th:field="*{nombre}" class="form-control" th:classappend="${#fields.hasErrors('nombre')} ? 'is-invalid' : ''" placeholder="Escriba el nombre del barbero" required />
+                    <div th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}" class="invalid-feedback"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Campo Apellido -->
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="apellido" class="form-label">Apellido</label>
+                    <input type="text" id="apellido" th:field="*{apellido}" class="form-control" th:classappend="${#fields.hasErrors('apellido')} ? 'is-invalid' : ''" placeholder="Escriba el apellido del barbero" required />
+                    <div th:if="${#fields.hasErrors('apellido')}" th:errors="*{apellido}" class="invalid-feedback"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Campo Teléfono -->
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="telefono" class="form-label">Teléfono</label>
+                    <input type="text" id="telefono" th:field="*{telefono}" class="form-control" th:classappend="${#fields.hasErrors('telefono')} ? 'is-invalid' : ''" placeholder="Escriba el teléfono del barbero" required />
+                    <div th:if="${#fields.hasErrors('telefono')}" th:errors="*{telefono}" class="invalid-feedback"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Campo Email -->
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" id="email" th:field="*{email}" class="form-control" th:classappend="${#fields.hasErrors('email')} ? 'is-invalid' : ''" placeholder="Escriba el email del barbero" required />
+                    <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="invalid-feedback"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Campo Contraseña -->
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="password" class="form-label">Contraseña</label>
+                    <input type="password" id="password" th:field="*{password}" class="form-control" th:classappend="${#fields.hasErrors('password')} ? 'is-invalid' : ''" placeholder="Escriba la contraseña" required />
+                    <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="invalid-feedback"></div>
+                </div>
+            </div>
+        </div>
+
+        <hr class="my-4"> <!-- Separador -->
+
+        <!-- Botones de acción -->
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Guardar</button>
+            <a th:href="@{/barbero}" class="btn btn-secondary ms-2">Regresar</a>
+        </div>
+    </form>
+</div>
+</html>
