@@ -13,9 +13,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -24,6 +29,8 @@ import java.util.stream.IntStream;
 @Controller
 @RequestMapping("/servicios")
 public class ServicioController {
+
+    private static final String UPLOAD_DIR = "src/main/resources/static/uploads/";
 
     @Autowired
     private IServicioService servicioService;
@@ -55,20 +62,45 @@ public class ServicioController {
     }
 
     @GetMapping("/create")
-    public String create(Servicio servicio){
+    public String create(Model model){
+        model.addAttribute("servicio", new Servicio());
         return "servicio/create";
     }
 
     @PostMapping("/save")
-    public String save(Servicio servicio, BindingResult result, Model model, RedirectAttributes attributes){
-        if(result.hasErrors()){
+    public String save(Servicio servicio, @RequestParam("fileImagen") MultipartFile fileImagen, BindingResult result,
+                       Model model, RedirectAttributes attributes) {
+        if (result.hasErrors()) {
             model.addAttribute(servicio);
             attributes.addFlashAttribute("error", "No se pudo guardar debido a un error.");
             return "servicio/create";
         }
+        if (fileImagen != null && !fileImagen.isEmpty()) {
+            try {
+                Path uploadPath = Paths.get(UPLOAD_DIR);
+                if (!Files.exists(uploadPath)) {
+                    Files.createDirectories(uploadPath);
+                }
+                String fileName = fileImagen.getOriginalFilename();
+                Path filePath = uploadPath.resolve(fileName);
+                Files.copy(fileImagen.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+                servicio.setImagen(fileName);
+                if (servicio.getId() !=null && servicio.getId() > 0) {
+                    Servicio servicioData = servicioService.buscarPorId(servicio.getId()).get();
+                    if (servicioData != null && servicioData.getImagen() != null) {
 
+                        Path filePathDelete = uploadPath.resolve(servicioData.getImagen());
+                        Files.deleteIfExists(filePathDelete);
+                    }
+                }
+
+            } catch (Exception e) {
+                attributes.addFlashAttribute("error", "Error al procesar la imagen: " + e.getMessage());
+                return "redirect:/producto";
+            }
+        }
         servicioService.crearOEditar(servicio);
-        attributes.addFlashAttribute("msg", "Servicio creado correctamente");
-        return "redirect:/servicios";
+        attributes.addFlashAttribute("msg", "producto creado correctamente");
+        return "redirect:/producto";
     }
 }
