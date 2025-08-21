@@ -18,12 +18,24 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import org.esfe.servicios.utilerias.PdfGeneratorService;
+
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+
+import java.io.IOException;
+
 @Controller
 @RequestMapping("/barbero")
 public class BarberoController {
 
     @Autowired
     private IBarberoService barberoService;
+
+    @Autowired
+    private PdfGeneratorService pdfGeneratorService;
 
     @GetMapping
     public String index(Model model, @RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size, @RequestParam("nombre") Optional<String> nombre,
@@ -51,13 +63,13 @@ public class BarberoController {
     }
 
     @GetMapping("/crear")
-    public String create(Barbero barbero){
+    public String create(Barbero barbero) {
         return "barbero/crear";
     }
 
     @PostMapping("/crear")
-    public String save(Barbero barbero, BindingResult result, Model model, RedirectAttributes attributes){
-        if(result.hasErrors()){
+    public String save(Barbero barbero, BindingResult result, Model model, RedirectAttributes attributes) {
+        if (result.hasErrors()) {
             model.addAttribute(barbero);
             attributes.addFlashAttribute("error", "No se pudo guardar debido a un error.");
             return "barbero/crear";
@@ -68,4 +80,22 @@ public class BarberoController {
         return "redirect:/barbero";
     }
 
+    @GetMapping("/reportegeneral/{visualizacion}")
+    public ResponseEntity<byte[]> ReporteGeneral(@PathVariable("visualizacion") String visualizacion) {
+        try {
+            List<Barbero> barberos = barberoService.obtenerTodos();
+            byte[] pdfBytes = pdfGeneratorService.generatePdfFromHtml("reportes/rpBarberos", "barberos", barberos);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_PDF);
+
+            // Agrega el encabezado UNA sola vez, usando el valor de la URL
+            headers.add("Content-Disposition", visualizacion + "; filename=reporte_general.pdf");
+
+            return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
+
+        } catch (IOException e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title>Factura Electrónica</title>
+    <style> </style>
+</head>
+
+<body>
+<table>
+    <thead>
+    <th>Id</th>
+    <th>Nombre</th>
+    <th>Apellido</th>
+    <th>Email</th>
+
+
+    </thead>
+    <tbody>
+    <tr th:each="item : ${barberos}">
+        <td th:text="${item.id}"></td>
+        <td th:text="${item.nombre}"></td>
+        <td th:text="${item.apellido}"></td>
+        <td th:text="${item.email}"></td>
+
+    </tr>
+    </tbody>
+</table>
+</body>
+
+</html>
