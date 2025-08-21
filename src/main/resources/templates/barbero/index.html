@@ -28,7 +28,7 @@
     </div>
 
     <h1>Listado de Barberos</h1>
-    <a th:href="@{/barbero/create}" class="btn btn-outline-primary">Nuevo Barbero</a>
+    <a th:href="@{/barbero/crear}" class="btn btn-outline-primary">Nuevo Barbero</a>
     <table class="table table-striped">
         <thead>
         <tr>
@@ -43,7 +43,7 @@
         <tr th:each="item : ${barberos}">
             <td th:text="${item.id}"></td>
             <td th:text="${item.nombre}"></td>
-            <td th:text="${item.precio}"></td>
+            <td th:text="${item.apellido}"></td>
             <td>
                 <a th:href="@{/barbero/details/{id} (id = ${item.id}) }" class="btn btn-outline-secondary">Detalles</a> |
                 <a th:href="@{/barbero/edit/{id} (id = ${item.id}) }" class="btn btn-outline-info">Editar</a> |

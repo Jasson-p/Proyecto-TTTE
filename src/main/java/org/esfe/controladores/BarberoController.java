@@ -1,4 +1,6 @@
 package org.esfe.controladores;
+import jakarta.validation.Valid;
+import org.springframework.validation.BindingResult;
 
 import org.esfe.modelos.Barbero;
 import org.esfe.servicios.interfaces.IBarberoService;
@@ -8,9 +10,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Optional;
@@ -31,9 +32,12 @@ public class BarberoController {
         int pageSize = size.orElse(5); // tamaño de la página, se asigna 5
         Pageable pageable = PageRequest.of(currentPage, pageSize);
         String nombreSearch = nombre.orElse("");
-        String ApellidoSearch = apellido.orElse("");
-        Page<Barbero> barberos = barberoService.buscarPorNombreYApellidoConteniendo(nombreSearch, ApellidoSearch, pageable);
+        String apellidoSearch = apellido.orElse("");
+        Page<Barbero> barberos = barberoService.buscarPorNombreYApellidoConteniendo(nombreSearch, apellidoSearch, pageable);
         model.addAttribute("barberos", barberos);
+        // Para mantener los valores de búsqueda en el formulario HTML cuando la página se recarga
+        model.addAttribute("nombreSearch", nombreSearch);
+        model.addAttribute("apellidoSearch", apellidoSearch);
 
         int totalPages = barberos.getTotalPages();
         if (totalPages > 0) {
@@ -44,6 +48,24 @@ public class BarberoController {
         }
 
         return "barbero/index";
+    }
+
+    @GetMapping("/crear")
+    public String create(Barbero barbero){
+        return "barbero/crear";
+    }
+
+    @PostMapping("/crear")
+    public String save(Barbero barbero, BindingResult result, Model model, RedirectAttributes attributes){
+        if(result.hasErrors()){
+            model.addAttribute(barbero);
+            attributes.addFlashAttribute("error", "No se pudo guardar debido a un error.");
+            return "barbero/crear";
+        }
+
+        barberoService.crearOEditar(barbero);
+        attributes.addFlashAttribute("msg", "barbero creado correctamente");
+        return "redirect:/barbero";
     }
 
 }
