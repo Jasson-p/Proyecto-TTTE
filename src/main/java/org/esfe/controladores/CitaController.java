@@ -48,7 +48,7 @@ public class CitaController {
 
 
         }
-        return null;
+         return "cita/index";
 
     }
 }
