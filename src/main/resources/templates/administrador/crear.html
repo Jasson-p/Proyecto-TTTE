@@ -1,0 +1,53 @@
+
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="/layouts/_mainLayout">
+<head>
+    <title>Crear Nuevo Administrador</title>
+</head>
+<div layout:fragment="content">
+
+    <h1>Crear Nuevo administrador</h1>
+    <hr/>
+    <!-- Formulario de creación de barbero -->
+    <form th:action="@{/administrador/crear}" th:object="${administrador}" method="post">
+
+        <!-- Mensajes de error globales del formulario (si existen) -->
+        <div th:if="${#fields.hasErrors('global')}" class="alert alert-danger" role="alert">
+            <p th:each="err : ${#fields.errors('global')}" th:text="${err}"></p>
+        </div>
+
+        <!-- Campo Nombre -->
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="nombreUsuario" class="form-label">Nombre</label>
+                    <input type="text" id="nombreUsuario" th:field="*{nombreUsuario}" class="form-control" th:classappend="${#fields.hasErrors('nombreUsuario')} ? 'is-invalid' : ''" placeholder="Escriba el nombre del administrador" required />
+                    <div th:if="${#fields.hasErrors('nombreUsuario')}" th:errors="*{nombreUsuario}" class="invalid-feedback"></div>
+                </div>
+            </div>
+        </div>
+
+     <!-- Campo Contraseña -->
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="password" class="form-label">Contraseña</label>
+                    <input type="password" id="password" th:field="*{password}" class="form-control" th:classappend="${#fields.hasErrors('password')} ? 'is-invalid' : ''" placeholder="Escriba la contraseña" required />
+                    <div th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="invalid-feedback"></div>
+                </div>
+            </div>
+        </div>
+
+        <hr class="my-4"> <!-- Separador -->
+
+        <!-- Botones de acción -->
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Guardar</button>
+            <a th:href="@{/administrador}" class="btn btn-secondary ms-2">Regresar</a>
+        </div>
+    </form>
+</div>
+</html>

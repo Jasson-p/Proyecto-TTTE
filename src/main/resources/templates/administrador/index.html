@@ -42,7 +42,7 @@
         <tbody>
         <tr th:each="item : ${administradores}">
             <td th:text="${item.id}"></td>
-            <td th:text="${item.nombre}"></td>
+            <td th:text="${item.nombreUsuario}"></td>
 
             <td>
                 <a th:href="@{/administrador/details/{id} (id = ${item.id}) }" class="btn btn-outline-secondary">Detalles</a> |
