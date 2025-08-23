@@ -57,7 +57,7 @@ public class ServicioController {
 
 
         }
-        return "servicio/index";
+        return "servicios/index";
 
     }
 
@@ -67,8 +67,8 @@ public class ServicioController {
         return "servicio/create";
     }
 
-    @PostMapping("/save")
-    public String save(Servicio servicio, @RequestParam("fileImagen") MultipartFile fileImagen, BindingResult result,
+    @PostMapping("/create")
+    public String create(Servicio servicio, @RequestParam("fileImagen") MultipartFile fileImagen, BindingResult result,
                        Model model, RedirectAttributes attributes) {
         if (result.hasErrors()) {
             model.addAttribute(servicio);
@@ -96,11 +96,11 @@ public class ServicioController {
 
             } catch (Exception e) {
                 attributes.addFlashAttribute("error", "Error al procesar la imagen: " + e.getMessage());
-                return "redirect:/producto";
+                return "redirect:/servicios";
             }
         }
         servicioService.crearOEditar(servicio);
-        attributes.addFlashAttribute("msg", "producto creado correctamente");
-        return "redirect:/producto";
+        attributes.addFlashAttribute("msg", "servicio creado correctamente");
+        return "redirect:/servicios";
     }
 }

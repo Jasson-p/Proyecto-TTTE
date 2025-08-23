@@ -1,7 +1,11 @@
 package org.esfe.modelos;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
+
+
 
 @Entity
 @Table(name = "servicio")
@@ -14,7 +18,8 @@ public class Servicio {
         @NotBlank(message = "El nombre es requerido")
         private String nombre;
 
-    @NotBlank(message = "El precio es requerido")
+    @NotNull(message = "El precio es requerido") // Valida que el valor no sea null
+    @Positive(message = "El precio debe ser un número positivo") // Valida que el valor sea mayor que cero
     private double precio;
 
     @NotBlank(message = "La imagen es requerido")

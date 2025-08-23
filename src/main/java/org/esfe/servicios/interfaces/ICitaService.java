@@ -1,6 +1,5 @@
 package org.esfe.servicios.interfaces;
 
-import org.esfe.modelos.Barbero;
 import org.esfe.modelos.Cita;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

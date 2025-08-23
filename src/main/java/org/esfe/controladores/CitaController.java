@@ -1,9 +1,7 @@
 package org.esfe.controladores;
 
 import org.esfe.modelos.Cita;
-import org.esfe.modelos.Servicio;
 import org.esfe.servicios.interfaces.ICitaService;
-import org.esfe.servicios.interfaces.IServicioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

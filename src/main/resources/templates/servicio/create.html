@@ -9,7 +9,7 @@
 <body>
 <div layout:fragment="content">
     <h1>Crear servicio</h1>
-    <form th:action="@{/servicios/save}" th:object="${servicio}" method="post" enctype="multipart/form-data">
+    <form th:action="@{/servicios/create}" th:object="${servicio}" method="post" enctype="multipart/form-data">
         <div class="form-group">
             <label for="nombre">Nombre:</label>
             <input type="text" class="form-control" id="nombre" th:field="*{nombre}" required />
