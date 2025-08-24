@@ -22,7 +22,7 @@ public class Servicio {
     @Positive(message = "El precio debe ser un número positivo") // Valida que el valor sea mayor que cero
     private double precio;
 
-    @NotBlank(message = "La imagen es requerido")
+
     private String imagen;
 
     public Integer getId() {

@@ -9,14 +9,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.Files;
@@ -27,7 +25,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Controller
-@RequestMapping("/servicios")
+@RequestMapping("/servicio")
 public class ServicioController {
 
     private static final String UPLOAD_DIR = "src/main/resources/static/uploads/";
@@ -57,7 +55,7 @@ public class ServicioController {
 
 
         }
-        return "servicios/index";
+        return "servicio/index";
 
     }
 
@@ -67,8 +65,8 @@ public class ServicioController {
         return "servicio/create";
     }
 
-    @PostMapping("/create")
-    public String create(Servicio servicio, @RequestParam("fileImagen") MultipartFile fileImagen, BindingResult result,
+    @PostMapping("/save")
+    public String save(Servicio servicio, @RequestParam("fileImagen") MultipartFile fileImagen, BindingResult result,
                        Model model, RedirectAttributes attributes) {
         if (result.hasErrors()) {
             model.addAttribute(servicio);
@@ -96,11 +94,34 @@ public class ServicioController {
 
             } catch (Exception e) {
                 attributes.addFlashAttribute("error", "Error al procesar la imagen: " + e.getMessage());
-                return "redirect:/servicios";
+                return "redirect:/servicio";
             }
         }
         servicioService.crearOEditar(servicio);
         attributes.addFlashAttribute("msg", "servicio creado correctamente");
-        return "redirect:/servicios";
+        return "redirect:/servicio";
+    }
+
+    @GetMapping("/imagen/{id}")
+    @ResponseBody
+    public byte[] mostrarImagen(@PathVariable Integer id) {
+        try {
+            Servicio servicio = servicioService.buscarPorId(id).get();
+            String fileName = servicio.getImagen();
+            // Construye la ruta completa del archivo
+            Path filePath = Paths.get(UPLOAD_DIR, fileName);
+
+            // Verifica si el archivo existe
+            if (!Files.exists(filePath)) {
+                // Puedes lanzar una excepción o devolver null
+                throw new IOException("Archivo no encontrado: " + fileName);
+            }
+
+            // Lee todos los bytes del archivo y los devuelve
+            return Files.readAllBytes(filePath);
+
+        } catch (IOException e) {
+            return new byte[0]; // Devuelve un arreglo vacío si hay un error
+        }
     }
 }
