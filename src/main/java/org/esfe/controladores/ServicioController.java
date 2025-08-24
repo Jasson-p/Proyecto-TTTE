@@ -34,16 +34,12 @@ public class ServicioController {
     private IServicioService servicioService;
 
     @GetMapping
-    public String index(Model model, @RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size,
-                        @RequestParam("nombre") Optional<String> nombre,
-                        @RequestParam("precio") Optional<Double>precio) {
+    public String index(Model model, @RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size){
 
         int currentPage = page.orElse(1) - 1;
         int pageSize = size.orElse(5);
         Pageable pageable = (Pageable) PageRequest.of(currentPage, pageSize);
-        String nombreSearch = nombre.orElse("");
-        Double precioSearch = precio.orElse(null);
-        Page<Servicio> servicios = servicioService.buscarPorNombreyPrecio(nombreSearch,  precioSearch, pageable);
+        Page<Servicio> servicios = servicioService.buscarTodosPaginados( pageable);
         model.addAttribute("servicios", servicios);
 
         int totalPages = servicios.getTotalPages();

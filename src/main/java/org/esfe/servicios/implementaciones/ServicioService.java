@@ -21,6 +21,11 @@ public class ServicioService implements IServicioService {
 
 
     @Override
+    public Page<Servicio> buscarTodosPaginados(Pageable pageable) {
+        return servicioRepository.findAll(pageable);
+    }
+
+    @Override
     public List<Servicio> obtenerTodos() {
         return servicioRepository.findAll();
     }

@@ -13,7 +13,7 @@ public interface IServicioService {
     List<Servicio> obtenerTodos();
 
     Optional<Servicio> buscarPorId(Integer id);
-
+    Page<Servicio> buscarTodosPaginados(Pageable pageable);
 
     Page<Servicio> buscarPorNombreyPrecio(String nombre, Double precio, Pageable pageable);
 
