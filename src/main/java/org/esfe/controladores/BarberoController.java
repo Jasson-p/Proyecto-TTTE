@@ -83,6 +83,26 @@ public class BarberoController {
         return "redirect:/barbero";
     }
 
+    @GetMapping("/detalle/{id}")
+    public String verDetalleBarbero(@PathVariable Long id, Model model) {
+        // 1. Busca el barbero por su ID usando el servicio
+        // Ahora se usa buscarPorId que devuelve un Optional<Barbero>
+        Optional<Barbero> barberoOptional = barberoService.buscarPorId(id.intValue());
+
+        if (barberoOptional.isPresent()) {
+            // 2. Si el barbero se encuentra (el Optional está presente), lo añade al modelo
+            model.addAttribute("barbero", barberoOptional.get());
+            // 3. Retorna el nombre lógico de la vista. Spring buscará el archivo
+            // en src/main/resources/templates/barbero/detalle.html
+            return "barbero/detalle";
+        } else {
+            // Si el barbero no se encuentra, se añade un mensaje de error
+            model.addAttribute("error", "Barbero no encontrado con ID: " + id);
+            return "redirect:/barbero"; // Redirige a la página principal de barberos
+        }
+    }
+
+
     @GetMapping("/reportegeneral/{visualizacion}")
     public ResponseEntity<byte[]> ReporteGeneral(@PathVariable("visualizacion") String visualizacion) {
         try {
