@@ -1,5 +1,4 @@
 package org.esfe.controladores;
-import jakarta.validation.Valid;
 import org.springframework.validation.BindingResult;
 
 import org.esfe.modelos.Barbero;
@@ -39,17 +38,21 @@ public class BarberoController {
 
     @GetMapping
     public String index(Model model, @RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size, @RequestParam("nombre") Optional<String> nombre,
-                        @RequestParam("apellido") Optional<String> apellido) {
+                        @RequestParam("apellido") Optional<String> apellido,
+                        @RequestParam("telefono") Optional<String> telefono) {
         int currentPage = page.orElse(1) - 1; // si no está seteado se asigna 0
         int pageSize = size.orElse(5); // tamaño de la página, se asigna 5
         Pageable pageable = PageRequest.of(currentPage, pageSize);
         String nombreSearch = nombre.orElse("");
         String apellidoSearch = apellido.orElse("");
-        Page<Barbero> barberos = barberoService.buscarPorNombreYApellidoConteniendo(nombreSearch, apellidoSearch, pageable);
+        String telefonoSearch = telefono.orElse("");
+        Page<Barbero> barberos = barberoService.buscarConteniendo(nombreSearch, apellidoSearch, telefonoSearch, pageable);
         model.addAttribute("barberos", barberos);
         // Para mantener los valores de búsqueda en el formulario HTML cuando la página se recarga
         model.addAttribute("nombreSearch", nombreSearch);
         model.addAttribute("apellidoSearch", apellidoSearch);
+        model.addAttribute("telefonoSearch", telefonoSearch);
+
 
         int totalPages = barberos.getTotalPages();
         if (totalPages > 0) {
