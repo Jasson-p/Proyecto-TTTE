@@ -9,12 +9,7 @@ import java.util.Optional;
 
 public interface IClienteRepository extends JpaRepository<Cliente, Integer> {
 
-
     Optional<Cliente> findByIdOrderByIdAsc(Integer id);
 
-
-    Optional<Cliente> findByTelefonoIgnoreCaseOrderByTelefonoAsc(String telefono);
-
-
-    Page<Cliente> findByNombreContainingIgnoreCaseAndApellidoContainingIgnoreCase(String nombre, String apellido, Pageable pageable);
+    Page<Cliente> findByNombreContainingIgnoreCaseAndApellidoContainingIgnoreCaseOrTelefonoContainingIgnoreCase(String nombre, String apellido, String telefono, Pageable pageable);
 }

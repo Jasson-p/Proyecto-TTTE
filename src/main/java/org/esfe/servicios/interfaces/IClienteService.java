@@ -13,9 +13,7 @@ public interface IClienteService {
 
     Optional<Cliente> buscarPorId(Integer id);
 
-    Page<Cliente> buscarPorNombreYApellidoConteniendo(String nombre, String apellido, Pageable pageable);
-
-    Optional<Cliente> buscarPorTelefono(String telefono);
+    Page<Cliente> buscarConteniendo(String nombre, String apellido, String telefono, Pageable pageable);
 
     Cliente crearOEditar(Cliente cliente);
 

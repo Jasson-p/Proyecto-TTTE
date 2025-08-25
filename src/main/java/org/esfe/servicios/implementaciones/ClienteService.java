@@ -27,14 +27,9 @@ public class ClienteService implements IClienteService {
         return clienteRepository.findByIdOrderByIdAsc(id);
     }
 
-    @Override
-    public Page<Cliente> buscarPorNombreYApellidoConteniendo(String nombre, String apellido, Pageable pageable) {
-        return clienteRepository.findByNombreContainingIgnoreCaseAndApellidoContainingIgnoreCase(nombre, apellido, pageable);
-    }
-
-    @Override
-    public Optional<Cliente> buscarPorTelefono(String telefono) {
-        return clienteRepository.findByTelefonoIgnoreCaseOrderByTelefonoAsc(telefono);
+     @Override
+     public Page<Cliente> buscarConteniendo(String nombre, String apellido, String telefono, Pageable pageable) {
+        return clienteRepository.findByNombreContainingIgnoreCaseAndApellidoContainingIgnoreCaseOrTelefonoContainingIgnoreCase(nombre, apellido, telefono, pageable);
     }
 
     @Override
