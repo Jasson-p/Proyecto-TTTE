@@ -11,5 +11,7 @@ import java.util.Optional;
 public interface ICitaRepository extends JpaRepository<Cita, Integer>{
     Page<Cita> findByServicioNombreContainingIgnoreCaseAndClienteNombreContainingIgnoreCase(String nombreServicio, String nombreCliente, Pageable pageable);
 
+    Page<Cita> findByOrderByClienteDesc(Pageable pageable);
+
     Optional<Cita> findByIdOrderByIdAsc(Integer id);
 }

@@ -4,14 +4,13 @@
       layout:decorate="/layouts/_mainLayout">
 
 <div layout:fragment="content">
-
     <!-- Mostrar mensaje de confirmación en caso de éxito -->
     <div th:if="${msg != null}">
         <script>
             Swal.fire({
-            title: "Confirmación",
-            text: '[[${msg}]]',
-            icon: "success"
+                title: "Confirmación",
+                text: '[[${msg}]]',
+                icon: "success"
             });
         </script>
     </div>
@@ -27,33 +26,34 @@
         </script>
     </div>
 
-    <h1>Listado de citas</h1>
+    <h1>Listado de citas </h1>
     <a th:href="@{/citas/create}" class="btn btn-outline-primary">Nueva cita</a>
     <table class="table table-striped">
         <thead>
         <tr>
             <th>ID</th>
-            <th>Servicio</th>
-            <th>Barbero</th>
-            <th>Cliente</th>
-            <th>Fecha</th>
-            <th>Hora</th>
-            <th>Estado</th>
+            <th>servicio</th>
+            <th>barbero</th>
+            <th>cliente</th>
+            <th>fecha</th>
+            <th>hora</th>
+            <th>estado</th>
+            <th>Acciones</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="item : ${citas}">
+        <tr th:each="item : ${asignaciones}">
             <td th:text="${item.id}"></td>
-            <td th:text="${item.servicio}"></td>
-            <td th:text="${item.barbero}"></td>
-            <td th:text="${item.cliente}"></td>
+            <td th:text="${item.servicio.nombre}"></td>
+            <td th:text="${item.barbero.nombre}"></td>
+            <td th:text="${item.cliente.nombre}"></td>
             <td th:text="${item.fecha}"></td>
             <td th:text="${item.hora}"></td>
             <td th:text="${item.estado}"></td>
             <td>
-                <a th:href="@{/cita/details/{id} (id = ${item.id}) }" class="btn btn-outline-secondary">Detalles</a> |
-                <a th:href="@{/cita/edit/{id} (id = ${item.id}) }" class="btn btn-outline-info">Editar</a> |
-                <a th:href="@{/cita/remove/{id} (id = ${item.id}) }" class="btn btn-outline-danger">Eliminar</a>
+                <a th:href="@{/citas/details/{id} (id = ${item.id}) }" class="btn btn-outline-secondary">Detalles</a> |
+                <a th:href="@{/citas/edit/{id} (id = ${item.id}) }" class="btn btn-outline-info">Editar</a> |
+                <a th:href="@{/citas/remove/{id} (id = ${item.id}) }" class="btn btn-outline-danger">Eliminar</a>
             </td>
         </tr>
         </tbody>

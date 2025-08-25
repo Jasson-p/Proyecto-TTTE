@@ -32,7 +32,11 @@ public class Cita {
     private LocalTime hora;
 
     @Column(name = "estado", nullable = false)
-    private Boolean estado;
+    private String estado = "Pendiente"; // Valor predeterminado
+
+    public Cliente getCliente() {
+        return cliente;
+    }
 
     public Integer getId() {
         return id;
@@ -77,11 +81,11 @@ public class Cita {
         this.hora = hora;
     }
 
-    public Boolean getEstado() {
+    public String getEstado() {
         return estado;
     }
 
-    public void setEstado(Boolean estado) {
+    public void setEstado(String estado) {
         this.estado = estado;
     }
 }

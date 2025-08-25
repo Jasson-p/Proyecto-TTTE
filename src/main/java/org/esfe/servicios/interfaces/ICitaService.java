@@ -13,7 +13,7 @@ public interface ICitaService {
     List<Cita> obtenerTodos();
 
 
-
+    Page<Cita> buscarTodosPaginados(Pageable pageable);
 
     Optional<Cita> buscarPorId(Integer id);
 

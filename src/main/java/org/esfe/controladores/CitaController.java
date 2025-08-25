@@ -1,7 +1,13 @@
 package org.esfe.controladores;
 
+import org.esfe.modelos.Barbero;
 import org.esfe.modelos.Cita;
+import org.esfe.modelos.Cliente;
+import org.esfe.modelos.Servicio;
+import org.esfe.servicios.interfaces.IBarberoService;
 import org.esfe.servicios.interfaces.ICitaService;
+import org.esfe.servicios.interfaces.IClienteService;
+import org.esfe.servicios.interfaces.IServicioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -9,8 +15,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,18 +32,25 @@ public class CitaController {
     @Autowired
     private ICitaService citaService;
 
-    @GetMapping
-    public String index(Model model, @RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size,
-                        @RequestParam("nombreServicio") Optional<String> nombreServicio,
-                        @RequestParam("nombreCliente") Optional<String>nombreCliente) {
+    @Autowired
+    IBarberoService barberoService;
 
-        int currentPage = page.orElse(1) - 1;
-        int pageSize = size.orElse(5);
-        Pageable pageable = (Pageable) PageRequest.of(currentPage, pageSize);
-        String nombreServicioSearch = nombreServicio.orElse("");
-        String nombreClienteSearch = nombreCliente.orElse("");
-        Page<Cita> citas = citaService.buscarPorNombresDeServicioYCliente(nombreServicioSearch,  nombreClienteSearch, pageable);
-        model.addAttribute("citas", citas);
+    @Autowired
+    IServicioService servicioService;
+
+    @Autowired
+    IClienteService clienteService;
+
+
+
+    @GetMapping()
+    public String index(Model model, @RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size){
+        int currentPage = page.orElse(1) - 1; // si no está seteado se asigna 0
+        int pageSize = size.orElse(5); // tamaño de la página, se asigna 5
+        Pageable pageable = PageRequest.of(currentPage, pageSize);
+
+        Page<Cita> citas = citaService.buscarTodosPaginados(pageable);
+        model.addAttribute("asignaciones", citas);
 
         int totalPages = citas.getTotalPages();
         if (totalPages > 0) {
@@ -43,10 +58,50 @@ public class CitaController {
                     .boxed()
                     .collect(Collectors.toList());
             model.addAttribute("pageNumbers", pageNumbers);
-
-
         }
-         return "cita/index";
 
+        return "cita/index";
+    }
+
+    @GetMapping("/create")
+    public String create(Model model){
+        model.addAttribute("barbero", barberoService.obtenerTodos());
+        model.addAttribute("servicio", servicioService.obtenerTodos());
+        model.addAttribute("cliente", clienteService.obtenerTodos());
+
+        return "cita/create";
+    }
+
+    @PostMapping("/save")
+    public String save(@RequestParam Integer barberoId,
+                       @RequestParam Integer servicioId,
+                       @RequestParam Integer clienteId,
+                       @RequestParam String fecha, // Agrega este parámetro
+                       @RequestParam String hora,   // Agrega este parámetro
+                       @RequestParam String estado, // Agrega este parámetro
+                       RedirectAttributes attributes){
+
+        Barbero barbero = barberoService.buscarPorId(barberoId).orElse(null);
+        Servicio servicio = servicioService.buscarPorId(servicioId).orElse(null);
+        Cliente cliente = clienteService.buscarPorId(clienteId).orElse(null);
+
+        if(barbero != null && servicio != null && cliente != null){
+            Cita cita = new Cita();
+            cita.setBarbero(barbero);
+            cita.setServicio(servicio);
+            cita.setCliente(cliente);
+
+            // Asigna los valores del formulario a la entidad
+            cita.setFecha(java.time.LocalDate.parse(fecha)); // Convierte la fecha del formulario
+            cita.setHora(java.time.LocalTime.parse(hora));   // Convierte la hora del formulario
+            cita.setEstado(estado);
+
+            citaService.crearOEditar(cita);
+            attributes.addFlashAttribute("msg", "Asignación creada correctamente");
+        } else {
+            attributes.addFlashAttribute("error", "Error al crear la cita. Verifique los datos seleccionados.");
+        }
+
+        return "redirect:/citas";
     }
 }

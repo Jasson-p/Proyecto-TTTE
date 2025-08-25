@@ -1,0 +1,72 @@
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="/layouts/_mainLayout">
+
+<div layout:fragment="content">
+    <h1>Crear nueva cita</h1>
+    <form th:action="@{/citas/save}" method="post">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="barbero">Barbero:</label>
+                    <select id="barbero" name="barberoId" class="form-control" required>
+                        <option th:each="barbero : ${barbero}" th:value="${barbero.id}" th:text="|${barbero.nombre}"></option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="servicio">Servicio:</label>
+                    <select id="servicio" name="servicioId" class="form-control" required>
+                        <option th:each="servicio : ${servicio}" th:value="${servicio.id}" th:text="${servicio.nombre}"></option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="cliente">Cliente:</label>
+                    <select id="cliente" name="clienteId" class="form-control" required>
+                        <option th:each="cliente : ${cliente}" th:value="${cliente.id}" th:text="${cliente.nombre}"></option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="fecha">Fecha</label>
+                    <input type="date" class="form-control" id="fecha" name="fecha" required>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="hora">Hora</label>
+                    <input type="time" class="form-control" id="hora" name="hora" required>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="estado">Estado de la Cita</label>
+            <select class="form-control" id="estado" name="estado" required>
+                <option value="Pendiente">Pendiente</option>
+                <option value="Confirmada">Confirmada</option>
+                <option value="Cancelada">Cancelada</option>
+            </select>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Guardar</button> |
+                    <a href="/citas">Regresar</a>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

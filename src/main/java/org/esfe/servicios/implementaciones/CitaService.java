@@ -34,6 +34,11 @@ public class CitaService implements ICitaService {
     }
 
     @Override
+    public Page<Cita> buscarTodosPaginados(Pageable pageable) {
+        return citaRepository.findByOrderByClienteDesc(pageable);
+    }
+
+    @Override
     public Cita crearOEditar(Cita cita) {
         return citaRepository.save(cita);
     }
