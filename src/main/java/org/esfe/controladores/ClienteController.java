@@ -1,6 +1,5 @@
 package org.esfe.controladores;
 
-import org.esfe.modelos.Barbero;
 import org.esfe.modelos.Cliente;
 import org.esfe.servicios.interfaces.IClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,18 +28,22 @@ public class ClienteController {
     private IClienteService clienteService;
 
     @GetMapping
-    public String index(Model model, @RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size, @RequestParam("nombre") Optional<String> nombre,
-                        @RequestParam("apellido") Optional<String> apellido) {
+    public String index(Model model, @RequestParam("page") Optional<Integer> page,
+                        @RequestParam("size") Optional<Integer> size, @RequestParam("nombre") Optional<String> nombre,
+                        @RequestParam("apellido") Optional<String> apellido,
+                        @RequestParam("telefono") Optional<String> telefono) {
         int currentPage = page.orElse(1) - 1; // si no está seteado se asigna 0
         int pageSize = size.orElse(5); // tamaño de la página, se asigna 5
         Pageable pageable = PageRequest.of(currentPage, pageSize);
         String nombreSearch = nombre.orElse("");
         String apellidoSearch = apellido.orElse("");
-        Page<Cliente> clientes = clienteService.buscarPorNombreYApellidoConteniendo(nombreSearch, apellidoSearch, pageable);
+        String telefonoSearch = telefono.orElse("");
+        Page<Cliente>clientes = clienteService.buscarConteniendo (nombreSearch, apellidoSearch, telefonoSearch, pageable);
         model.addAttribute("clientes", clientes);
         // Para mantener los valores de búsqueda en el formulario HTML cuando la página se recarga
         model.addAttribute("nombreSearch", nombreSearch);
         model.addAttribute("apellidoSearch", apellidoSearch);
+        model.addAttribute("telefonoSearch", telefonoSearch);
 
         int totalPages = clientes.getTotalPages();
         if (totalPages > 0) {
