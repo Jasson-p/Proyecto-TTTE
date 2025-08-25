@@ -27,14 +27,10 @@ public class BarberoService implements IBarberoService {
     public Optional<Barbero> buscarPorId(Integer id) {
         return barberoRepository.findByIdOrderByIdAsc(id);
     }
-    @Override
-    public Page<Barbero> buscarPorNombreYApellidoConteniendo(String nombre, String apellido, Pageable pageable) {
-        return barberoRepository.findByNombreContainingIgnoreCaseAndApellidoContainingIgnoreCase(nombre, apellido, pageable);
-    }
 
     @Override
-    public Optional<Barbero> buscarPorTelefono(String telefono) {
-        return barberoRepository.findByTelefonoIgnoreCaseOrderByTelefonoAsc(telefono);
+    public Page<Barbero> buscarConteniendo(String nombre, String apellido, String telefono, Pageable pageable) {
+        return barberoRepository.findByNombreContainingIgnoreCaseAndApellidoContainingIgnoreCaseOrTelefonoContainingIgnoreCase(nombre, apellido, telefono, pageable);
     }
 
     @Override

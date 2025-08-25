@@ -1,5 +1,4 @@
 package org.esfe.controladores;
-import jakarta.validation.Valid;
 import org.springframework.validation.BindingResult;
 
 import org.esfe.modelos.Barbero;
@@ -39,17 +38,21 @@ public class BarberoController {
 
     @GetMapping
     public String index(Model model, @RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size, @RequestParam("nombre") Optional<String> nombre,
-                        @RequestParam("apellido") Optional<String> apellido) {
+                        @RequestParam("apellido") Optional<String> apellido,
+                        @RequestParam("telefono") Optional<String> telefono) {
         int currentPage = page.orElse(1) - 1; // si no está seteado se asigna 0
         int pageSize = size.orElse(5); // tamaño de la página, se asigna 5
         Pageable pageable = PageRequest.of(currentPage, pageSize);
         String nombreSearch = nombre.orElse("");
         String apellidoSearch = apellido.orElse("");
-        Page<Barbero> barberos = barberoService.buscarPorNombreYApellidoConteniendo(nombreSearch, apellidoSearch, pageable);
+        String telefonoSearch = telefono.orElse("");
+        Page<Barbero> barberos = barberoService.buscarConteniendo(nombreSearch, apellidoSearch, telefonoSearch, pageable);
         model.addAttribute("barberos", barberos);
         // Para mantener los valores de búsqueda en el formulario HTML cuando la página se recarga
         model.addAttribute("nombreSearch", nombreSearch);
         model.addAttribute("apellidoSearch", apellidoSearch);
+        model.addAttribute("telefonoSearch", telefonoSearch);
+
 
         int totalPages = barberos.getTotalPages();
         if (totalPages > 0) {
@@ -79,6 +82,26 @@ public class BarberoController {
         attributes.addFlashAttribute("msg", "barbero creado correctamente");
         return "redirect:/barbero";
     }
+
+    @GetMapping("/detalle/{id}")
+    public String verDetalleBarbero(@PathVariable Long id, Model model) {
+        // 1. Busca el barbero por su ID usando el servicio
+        // Ahora se usa buscarPorId que devuelve un Optional<Barbero>
+        Optional<Barbero> barberoOptional = barberoService.buscarPorId(id.intValue());
+
+        if (barberoOptional.isPresent()) {
+            // 2. Si el barbero se encuentra (el Optional está presente), lo añade al modelo
+            model.addAttribute("barbero", barberoOptional.get());
+            // 3. Retorna el nombre lógico de la vista. Spring buscará el archivo
+            // en src/main/resources/templates/barbero/detalle.html
+            return "barbero/detalle";
+        } else {
+            // Si el barbero no se encuentra, se añade un mensaje de error
+            model.addAttribute("error", "Barbero no encontrado con ID: " + id);
+            return "redirect:/barbero"; // Redirige a la página principal de barberos
+        }
+    }
+
 
     @GetMapping("/reportegeneral/{visualizacion}")
     public ResponseEntity<byte[]> ReporteGeneral(@PathVariable("visualizacion") String visualizacion) {

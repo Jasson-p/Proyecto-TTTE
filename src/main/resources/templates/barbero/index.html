@@ -47,7 +47,7 @@
             <td th:text="${item.nombre}"></td>
             <td th:text="${item.apellido}"></td>
             <td>
-                <a th:href="@{/barbero/details/{id} (id = ${item.id}) }" class="btn btn-outline-secondary">Detalles</a> |
+                <a th:href="@{/barbero/detalle/{id} (id = ${item.id}) }" class="btn btn-outline-secondary">Detalles</a> |
                 <a th:href="@{/barbero/edit/{id} (id = ${item.id}) }" class="btn btn-outline-info">Editar</a> |
                 <a th:href="@{/barbero/remove/{id} (id = ${item.id}) }" class="btn btn-outline-danger">Eliminar</a>
             </td>
@@ -58,7 +58,7 @@
     <nav aria-label="Page navigation example">
         <ul class="pagination">
             <li class="page-item" th:each="pageNumber : ${pageNumbers}">
-                <a class="page-link" th:href="@{|/barberos?page=${pageNumber}|}" th:text="${pageNumber}"></a>
+                <a class="page-link" th:href="@{|/barbero?page=${pageNumber}|}" th:text="${pageNumber}"></a>
             </li>
         </ul>
     </nav>

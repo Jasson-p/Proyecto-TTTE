@@ -11,9 +11,5 @@ public interface IBarberoRepository extends JpaRepository<Barbero, Integer> {
 
     Optional<Barbero> findByIdOrderByIdAsc(Integer id);
 
-
-    Optional<Barbero> findByTelefonoIgnoreCaseOrderByTelefonoAsc(String telefono);
-
-
-    Page<Barbero> findByNombreContainingIgnoreCaseAndApellidoContainingIgnoreCase(String nombre, String apellido, Pageable pageable);
+    Page<Barbero> findByNombreContainingIgnoreCaseAndApellidoContainingIgnoreCaseOrTelefonoContainingIgnoreCase(String nombre, String apellido, String telefono, Pageable pageable);
 }

@@ -13,9 +13,7 @@ public interface IBarberoService {
 
     Optional<Barbero> buscarPorId(Integer id);
 
-    Page<Barbero> buscarPorNombreYApellidoConteniendo(String nombre, String apellido, Pageable pageable);
-
-    Optional<Barbero> buscarPorTelefono(String telefono);
+    Page<Barbero> buscarConteniendo(String nombre, String apellido, String telefono, Pageable pageable);
 
     Barbero crearOEditar(Barbero barbero);
 
