@@ -9,10 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
@@ -74,4 +71,21 @@ public class ClienteController {
         return "redirect:/cliente";
     }
 
+    @GetMapping("/detalle/{id}")
+    public String verDetalleCliente(@PathVariable Long id, Model model) {
+        // 1. Busca el cliente por su ID usando el servicio
+        Optional<Cliente> clienteOptional = clienteService.buscarPorId(id.intValue()); // Convertir Long a Integer si tu servicio lo espera
+
+        if (clienteOptional.isPresent()) {
+            // 2. Si el cliente se encuentra (el Optional está presente), lo añade al modelo
+            model.addAttribute("cliente", clienteOptional.get());
+            // 3. Retorna el nombre lógico de la vista. Spring buscará el archivo
+            // en src/main/resources/templates/cliente/detalle.html
+            return "cliente/detalle";
+        } else {
+            // Si el cliente no se encuentra, se añade un mensaje de error y redirige
+            model.addAttribute("error", "Cliente no encontrado con ID: " + id);
+            return "redirect:/cliente"; // Redirige a la página principal de clientes
+        }
+    }
 }

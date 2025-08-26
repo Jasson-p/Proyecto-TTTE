@@ -1,0 +1,79 @@
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="/layouts/_mainLayout">
+
+<div layout:fragment="content">
+    <!-- Este es el contenido que se insertará en el _mainLayout.html -->
+    <!-- Las etiquetas <meta>, <link> para CSS y <script> para JS deben estar en _mainLayout.html -->
+    <!-- SweetAlert2 también debe cargarse en _mainLayout.html si lo usas -->
+
+    <!-- Mostrar mensaje de confirmación en caso de éxito -->
+    <div th:if="${msg != null}" class="mb-4">
+        <script>
+            // Si Swal.fire está cargado en _mainLayout.html, se puede usar directamente
+            Swal.fire({
+                title: "Confirmación",
+                text: '[[${msg}]]',
+                icon: "success"
+            });
+        </script>
+    </div>
+
+    <!-- Mostrar mensaje de error en caso de error -->
+    <div th:if="${error != null}" class="mb-4">
+        <script>
+            // Si Swal.fire está cargado en _mainLayout.html, se puede usar directamente
+            Swal.fire({
+                title: "Error",
+                text: '[[${error}]]',
+                icon: "error"
+            });
+        </script>
+    </div>
+
+    <div class="max-w-4xl mx-auto bg-white rounded-lg shadow-md p-6 sm:p-8">
+        <h1 class="text-3xl font-bold text-gray-900 mb-6 border-b pb-4">Detalle del Cliente</h1>
+
+        <!-- Cliente Details Section -->
+        <div th:if="${cliente != null}" class="space-y-4">
+            <div class="flex flex-col sm:flex-row sm:items-center py-2 border-b last:border-b-0">
+                <span class="font-semibold text-lg sm:w-1/4">ID:</span>
+                <span th:text="${cliente.id}" class="text-gray-700 text-lg sm:w-3/4"></span>
+            </div>
+            <div class="flex flex-col sm:flex-row sm:items-center py-2 border-b last:border-b-0">
+                <span class="font-semibold text-lg sm:w-1/4">Nombre:</span>
+                <span th:text="${cliente.nombre}" class="text-gray-700 text-lg sm:w-3/4"></span>
+            </div>
+            <div class="flex flex-col sm:flex-row sm:items-center py-2 border-b last:border-b-0">
+                <span class="font-semibold text-lg sm:w-1/4">Apellido:</span>
+                <span th:text="${cliente.apellido}" class="text-gray-700 text-lg sm:w-3/4"></span>
+            </div>
+            <div class="flex flex-col sm:flex-row sm:items-center py-2 border-b last:border-b-0">
+                <span class="font-semibold text-lg sm:w-1/4">Teléfono:</span>
+                <span th:text="${cliente.telefono}" class="text-gray-700 text-lg sm:w-3/4"></span>
+            </div>
+            <div class="flex flex-col sm:flex-row sm:items-center py-2">
+                <span class="font-semibold text-lg sm:w-1/4">Email:</span>
+                <span th:text="${cliente.email}" class="text-gray-700 text-lg sm:w-3/4"></span>
+            </div>
+        </div>
+
+        <!-- No Cliente Found Message -->
+        <div th:if="${cliente == null}" class="text-center text-gray-600 py-8">
+            <p class="text-xl">No se encontró información para este cliente.</p>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="mt-8 flex flex-col sm:flex-row gap-4">
+            <a th:href="@{/cliente}"
+               class="flex-1 text-center bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md transition duration-300 ease-in-out shadow-md">
+                Regresar a la lista
+            </a>
+            <a th:if="${cliente != null}" th:href="@{/cliente/edit/{id} (id = ${cliente.id}) }"
+               class="flex-1 text-center bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-md transition duration-300 ease-in-out shadow-md">
+                Editar Cliente
+            </a>
+        </div>
+    </div>
+</div>
