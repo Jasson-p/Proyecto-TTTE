@@ -121,4 +121,25 @@ public class BarberoController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/eliminar/{id}")
+    public String remove(@PathVariable("id") Integer id, Model model, RedirectAttributes attributes) {
+        Optional<Barbero> barbero = barberoService.buscarPorId(id);
+        if (barbero.isEmpty()) {
+            attributes.addFlashAttribute("error", "Barbero no encontrado.");
+            return "redirect:/barbero";
+        }
+        model.addAttribute("barbero", barbero.get());
+        return "barbero/eliminar";
+    }
+
+    @PostMapping("/eliminar")
+    public String delete(Barbero barbero, RedirectAttributes attributes) {
+        // No es necesario buscar el barbero en la base de datos de nuevo
+        // porque ya tenemos el ID del formulario
+        barberoService.eliminarPorId(barbero.getId());
+        attributes.addFlashAttribute("msg", "Barbero eliminado correctamente.");
+        return "redirect:/barbero";
+    }
+
 }

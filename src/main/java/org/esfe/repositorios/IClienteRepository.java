@@ -11,5 +11,5 @@ public interface IClienteRepository extends JpaRepository<Cliente, Integer> {
 
     Optional<Cliente> findByIdOrderByIdAsc(Integer id);
 
-    Page<Cliente> findByNombreContainingIgnoreCaseAndApellidoContainingIgnoreCaseOrTelefonoContainingIgnoreCase(String nombre, String apellido, String telefono, Pageable pageable);
+    Page<Cliente> findByNombreContainingIgnoreCaseAndApellidoContainingIgnoreCaseAndTelefonoContainingIgnoreCase(String nombre, String apellido, String telefono, Pageable pageable);
 }
