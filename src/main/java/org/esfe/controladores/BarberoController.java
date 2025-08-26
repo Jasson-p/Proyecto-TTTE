@@ -142,4 +142,26 @@ public class BarberoController {
         return "redirect:/barbero";
     }
 
+    @GetMapping("/editar/{id}")
+    public String edit(@PathVariable("id") Integer id, Model model, RedirectAttributes attributes) {
+        Optional<Barbero> barbero = barberoService.buscarPorId(id);
+        if (barbero.isEmpty()) {
+            attributes.addFlashAttribute("error", "Barbero no encontrado.");
+            return "redirect:/barbero";
+        }
+        model.addAttribute("barbero", barbero.get());
+        return "barbero/editar";
+    }
+
+    @PostMapping("/guardar")
+    public String saveEdit(@ModelAttribute("barbero") Barbero barbero, BindingResult result, RedirectAttributes attributes) {
+        if (result.hasErrors()) {
+            attributes.addFlashAttribute("error", "No se pudo guardar debido a un error.");
+            return "barbero/editar";
+        }
+        barberoService.crearOEditar(barbero);
+        attributes.addFlashAttribute("msg", "Barbero actualizado correctamente.");
+        return "redirect:/barbero";
+    }
+
 }
