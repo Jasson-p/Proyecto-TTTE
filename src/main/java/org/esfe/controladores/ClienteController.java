@@ -106,4 +106,26 @@ public class ClienteController {
         attributes.addFlashAttribute("msg", "Cliente eliminado correctamente.");
         return "redirect:/cliente";
     }
+
+    @GetMapping("/editar/{id}")
+    public String edit(@PathVariable("id") Integer id, Model model, RedirectAttributes attributes) {
+        Optional<Cliente> cliente = clienteService.buscarPorId(id);
+        if (cliente.isEmpty()) {
+            attributes.addFlashAttribute("error", "Cliente no encontrado.");
+            return "redirect:/cliente";
+        }
+        model.addAttribute("cliente", cliente.get());
+        return "cliente/editar";
+    }
+
+    @PostMapping("/guardar")
+    public String saveEdit(@ModelAttribute("cliente") Cliente cliente, BindingResult result, RedirectAttributes attributes) {
+        if (result.hasErrors()) {
+            attributes.addFlashAttribute("error", "No se pudo guardar debido a un error.");
+            return "cliente/editar";
+        }
+        clienteService.crearOEditar(cliente);
+        attributes.addFlashAttribute("msg", "Cliente actualizado correctamente.");
+        return "redirect:/cliente";
+    }
 }
