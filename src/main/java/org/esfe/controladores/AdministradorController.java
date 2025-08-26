@@ -11,10 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
@@ -68,6 +65,25 @@ public class AdministradorController {
         administradorService.crearOEditar(administrador);
         attributes.addFlashAttribute("msg", "Administrador creado correctamente");
         return "redirect:/administrador";
+    }
+
+    @GetMapping("/detalle/{id}")
+    public String verDetalleAdministrador(@PathVariable Long id, Model model) {
+        // 1. Busca el administrador por su ID usando el servicio
+        // que devuelve un Optional<Administrador>.
+        Optional<Administrador> administradorOptional = administradorService.buscarPorId(id.intValue()); // Convertir Long a Integer si tu servicio lo espera
+
+        if (administradorOptional.isPresent()) {
+            // 2. Si el administrador se encuentra, lo añade al modelo
+            model.addAttribute("administrador", administradorOptional.get());
+            // 3. Retorna el nombre lógico de la vista. Spring buscará el archivo
+            // en src/main/resources/templates/administrador/detalle.html
+            return "administrador/detalle";
+        } else {
+            // Si el administrador no se encuentra, se añade un mensaje de error y redirige
+            model.addAttribute("error", "Administrador no encontrado con ID: " + id);
+            return "redirect:/administrador"; // Redirige a la página principal de administradores
+        }
     }
 
 }
