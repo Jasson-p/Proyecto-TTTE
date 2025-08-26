@@ -85,4 +85,24 @@ public class AdministradorController {
         }
     }
 
+    @GetMapping("/eliminar/{id}")
+    public String remove(@PathVariable("id") Integer id, Model model, RedirectAttributes attributes) {
+        Optional<Administrador> administrador = administradorService.buscarPorId(id);
+        if (administrador.isEmpty()) {
+            attributes.addFlashAttribute("error", "Administrador no encontrado.");
+            return "redirect:/administrador";
+        }
+        model.addAttribute("administrador", administrador.get());
+        return "administrador/eliminar";
+    }
+
+    @PostMapping("/eliminar")
+    public String delete(Administrador administrador, RedirectAttributes attributes) {
+        // No es necesario buscar el administrador en la base de datos de nuevo
+        // porque ya tenemos el ID del formulario
+        administradorService.eliminarPorId(administrador.getId());
+        attributes.addFlashAttribute("msg", "Administrador eliminado correctamente.");
+        return "redirect:/administrador";
+    }
+
 }

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/_mainLayout}">
+<head>
+    <title>Eliminar Administrador</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <h1>Eliminar Administrador</h1>
+    <div class="alert alert-danger">
+        <h3>¿Está seguro que desea eliminar este administrador?</h3>
+    </div>
+    <dl class="row">
+        <dt class="col-sm-2">ID:</dt>
+        <dd class="col-sm-10" th:text="${administrador.id}"></dd>
+
+        <dt class="col-sm-2">Nombre de Usuario:</dt>
+        <dd class="col-sm-10" th:text="${administrador.nombreUsuario}"></dd>
+
+        <dt class="col-sm-2">Contraseña:</dt>
+        <dd class="col-sm-10" th:text="${administrador.password}"></dd>
+
+    </dl>
+    <form th:action="@{/administrador/eliminar}" method="post">
+        <input type="hidden" name="id" th:value="${administrador.id}">
+        <button type="submit" class="btn btn-danger">Eliminar</button>
+        <a th:href="@{/administrador}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+</body>
+</html>
