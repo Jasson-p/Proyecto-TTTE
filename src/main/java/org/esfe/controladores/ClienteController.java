@@ -88,4 +88,22 @@ public class ClienteController {
             return "redirect:/cliente"; // Redirige a la página principal de clientes
         }
     }
+
+    @GetMapping("/eliminar/{id}")
+    public String remove(@PathVariable("id") Integer id, Model model, RedirectAttributes attributes) {
+        Optional<Cliente> cliente = clienteService.buscarPorId(id);
+        if (cliente.isEmpty()) {
+            attributes.addFlashAttribute("error", "Cliente no encontrado.");
+            return "redirect:/cliente";
+        }
+        model.addAttribute("cliente", cliente.get());
+        return "cliente/eliminar";
+    }
+
+    @PostMapping("/eliminar")
+    public String delete(Cliente cliente, RedirectAttributes attributes) {
+        clienteService.eliminarPorId(cliente.getId());
+        attributes.addFlashAttribute("msg", "Cliente eliminado correctamente.");
+        return "redirect:/cliente";
+    }
 }
