@@ -148,4 +148,18 @@ public class ServicioController {
         attributes.addFlashAttribute("msg", "Producto eliminado correctamente");
         return "redirect:/servicio";
     }
+
+    @GetMapping("/edit/{id}")
+    public String edit(@PathVariable("id") Integer id, Model model) {
+        Servicio servicio = servicioService.buscarPorId(id).get();
+        model.addAttribute("servicio", servicio);
+        return "servicio/edit";
+    }
+
+    @GetMapping("/details/{id}")
+    public String details(@PathVariable("id") Integer id, Model model) {
+        Servicio servicio = servicioService.buscarPorId(id).get();
+        model.addAttribute("servicio", servicio);
+        return "servicio/details";
+    }
 }
