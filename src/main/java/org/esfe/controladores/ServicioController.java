@@ -120,4 +120,32 @@ public class ServicioController {
             return new byte[0]; // Devuelve un arreglo vacío si hay un error
         }
     }
+
+    @GetMapping("/remove/{id}")
+    public String remove(@PathVariable("id") Integer id, Model model) {
+        Servicio servicio = servicioService.buscarPorId(id).get();
+        model.addAttribute("servicio", servicio);
+        return "servicio/delete";
+    }
+
+    @PostMapping("/delete")
+    public String delete(Servicio servicio, RedirectAttributes attributes) {
+        Servicio servicioData = servicioService.buscarPorId(servicio.getId()).get();
+        if (servicioData != null && servicioData.getImagen() != null) {
+            try {
+                Path uploadPath = Paths.get(UPLOAD_DIR);
+                if (!Files.exists(uploadPath)) {
+                    Files.createDirectories(uploadPath);
+                }
+                Path filePathDelete = uploadPath.resolve(servicioData.getImagen());
+                Files.deleteIfExists(filePathDelete);
+            } catch (Exception e) {
+                attributes.addFlashAttribute("error", "Error al procesar la imagen: " + e.getMessage());
+                return "redirect:/servicio/create";
+            }
+        }
+        servicioService.eliminarPorId(servicio.getId());
+        attributes.addFlashAttribute("msg", "Producto eliminado correctamente");
+        return "redirect:/servicio";
+    }
 }

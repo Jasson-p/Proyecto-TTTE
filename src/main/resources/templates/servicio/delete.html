@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/_mainLayout}">
+<head>
+    <title>Eliminar servicio</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <h1>Eliminar servicio</h1>
+    <div class="alert alert-danger">
+        <h3>¿Está seguro que desea eliminar este servicio?</h3>
+    </div>
+    <dl class="row">
+        <dt class="col-sm-2">ID:</dt>
+        <dd class="col-sm-10" th:text="${servicio.id}"></dd>
+
+        <dt class="col-sm-2">Nombre:</dt>
+        <dd class="col-sm-10" th:text="${servicio.nombre}"></dd>
+
+        <dt class="col-sm-2">Imagen:</dt>
+        <dd class="col-sm-10">
+            <img th:if="${servicio.imagen != null}"
+                 th:src="@{'/servicio/imagen/' + ${servicio.id}}"
+                 style="max-width: 200px; max-height: 200px;"/>
+            <span th:if="${servicio.imagen == null}">Sin imagen</span>
+        </dd>
+    </dl>
+    <form th:action="@{/servicio/delete}" method="post">
+        <input type="hidden" name="Id" th:value="${servicio.id}">
+        <button type="submit" class="btn btn-danger">Eliminar</button>
+        <a th:href="@{/servicio}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+</body>
+</html>
