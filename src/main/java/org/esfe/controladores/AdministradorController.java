@@ -2,7 +2,6 @@ package org.esfe.controladores;
 
 
 import org.esfe.modelos.Administrador;
-import org.esfe.modelos.Barbero;
 import org.esfe.servicios.interfaces.IAdministradorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
