@@ -101,4 +101,18 @@ public class CitaController {
 
         return "redirect:/citas";
     }
+
+    @GetMapping("/remove/{id}")
+    public String remove(@PathVariable("id") Integer id, Model model){
+        Cita cita = citaService.buscarPorId(id).get();
+        model.addAttribute("cita", cita);
+        return "cita/delete";
+    }
+
+    @PostMapping("/delete")
+    public String delete(Cita cita, RedirectAttributes attributes){
+        citaService.eliminarPorId(cita.getId());
+        attributes.addFlashAttribute("msg", "Asignación eliminada correctamente");
+        return "redirect:/citas";
+    }
 }
