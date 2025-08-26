@@ -27,6 +27,34 @@
         </script>
     </div>
 
+    <h1>Busca un cliente</h1>
+
+    <form class="my-3" th:action="@{/cliente}" method="get">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" id="nombre" name="nombre" class="form-control" th:value="${nombreSearch}">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="apellido">Apellido</label>
+                    <input type="text" id="apellido" name="apellido" class="form-control" th:value="${apellidoSearch}">
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="telefono">Teléfono</label>
+                    <input type="text" id="telefono" name="telefono" class="form-control" th:value="${telefonoSearch}">
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary mt-2">Buscar</button>
+        <a th:href="@{/cliente}" class="btn btn-secondary mt-2">Limpiar Filtros</a>
+    </form>
+
+
     <h1>Listado de clientes</h1>
     <a th:href="@{/cliente/crear}" class="btn btn-outline-primary">Nuevo Cliente</a>
     <table class="table table-striped">
@@ -45,6 +73,7 @@
             <td th:text="${item.id}"></td>
             <td th:text="${item.nombre}"></td>
             <td th:text="${item.apellido}"></td>
+            <td th:text="${item.telefono}"></td>
             <td th:text="${item.email}"></td>
 
             <td>

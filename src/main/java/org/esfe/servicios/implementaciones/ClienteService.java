@@ -29,7 +29,7 @@ public class ClienteService implements IClienteService {
 
      @Override
      public Page<Cliente> buscarConteniendo(String nombre, String apellido, String telefono, Pageable pageable) {
-        return clienteRepository.findByNombreContainingIgnoreCaseAndApellidoContainingIgnoreCaseOrTelefonoContainingIgnoreCase(nombre, apellido, telefono, pageable);
+        return clienteRepository.findByNombreContainingIgnoreCaseAndApellidoContainingIgnoreCaseAndTelefonoContainingIgnoreCase(nombre, apellido, telefono, pageable);
     }
 
     @Override
