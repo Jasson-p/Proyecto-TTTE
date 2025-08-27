@@ -4,7 +4,25 @@ CREATE DATABASE "defaultdb";
 -- Selección de la base de datos
 USE defaultdb;
 
--- Inserción de un usuario administrador
-INSERT INTO Administrador (nombreUsuario, password) VALUES ('sysadmin', '827ccb0eea8a706c4c34a16891f84e7b');
 
---prueba
+
+INSERT INTO roles (nombre) VALUES ('administrador');
+INSERT INTO roles (nombre) VALUES ('barbero');
+INSERT INTO roles (nombre) VALUES ('cliente');
+
+-- clave 12345
+INSERT INTO usuarios (login, clave, status) VALUES ('sysadmin', '$2a$12$r74HSGhuNB5zqfLG3fiao.OlRzKsPv/6R5EuhLNeFqjkKM7BZJ20m', 1);
+
+CREATE TABLE usuario_rol (
+    usuario_id INT NOT NULL,
+    rol_id INT NOT NULL,
+    PRIMARY KEY (usuario_id, rol_id),
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id),
+    FOREIGN KEY (rol_id) REFERENCES roles(id)
+);
+
+INSERT INTO usuario_rol (usuario_id, rol_id)
+SELECT u.id, r.id
+FROM usuarios u, roles r
+WHERE u.login = 'sysadmin' AND r.nombre = 'administrador';
+

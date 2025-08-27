@@ -25,7 +25,9 @@ public class Usuario {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "usuario_rol",
             joinColumns = @JoinColumn(name = "usuario_id"),
-            inverseJoinColumns = @JoinColumn(name = "rol_id"))
+            inverseJoinColumns = @JoinColumn(name = "rol_id"),
+    uniqueConstraints = @UniqueConstraint(columnNames = {"usuario_id", "rol_id"}) // Esta línea es clave
+    )
     private List<Rol> roles;
 
     public Integer getId() {
