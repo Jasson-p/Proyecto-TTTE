@@ -115,4 +115,45 @@ public class CitaController {
         attributes.addFlashAttribute("msg", "Asignación eliminada correctamente");
         return "redirect:/citas";
     }
+    @GetMapping("/edit/{id}")
+    public String edit(@PathVariable("id") Integer id, Model model){
+        Cita cita = citaService.buscarPorId(id).get();
+        model.addAttribute("barbero", barberoService.obtenerTodos());
+        model.addAttribute("servicio", servicioService.obtenerTodos());
+        model.addAttribute("cliente", clienteService.obtenerTodos());
+        model.addAttribute("cita", cita);
+        return "cita/edit";
+    }
+
+    @PostMapping("/update")
+    public String update(@RequestParam Integer id, @RequestParam Integer barberoId, @RequestParam Integer servicioId,
+                         @RequestParam Integer clienteId,
+                         @RequestParam String fecha, // Agrega este parámetro
+                         @RequestParam String hora,   // Agrega este parámetro
+                         @RequestParam String estado,
+                         RedirectAttributes attributes){
+        Barbero barbero = barberoService.buscarPorId(barberoId).get();
+        Servicio servicio = servicioService.buscarPorId(servicioId).get();
+        Cliente cliente = clienteService.buscarPorId(clienteId).get();
+
+        if(barbero != null && servicio != null && cliente !=null){
+            Cita cita = new Cita();
+            cita.setId(id);
+            cita.setBarbero(barbero);
+            cita.setServicio(servicio);
+            cita.setCliente(cliente);
+
+
+            // Asigna los valores del formulario a la entidad
+            cita.setFecha(java.time.LocalDate.parse(fecha)); // Convierte la fecha del formulario
+            cita.setHora(java.time.LocalTime.parse(hora));   // Convierte la hora del formulario
+            cita.setEstado(estado);
+
+            citaService.crearOEditar(cita);
+            attributes.addFlashAttribute("msg", "Asignación modificada correctamente");
+        }
+
+        return "redirect:/citas";
+    }
+
 }

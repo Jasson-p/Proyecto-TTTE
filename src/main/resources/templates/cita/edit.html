@@ -1,10 +1,179 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="/layouts/_mainLayout">
+
+<div layout:fragment="content">
+    <h1>Editar la cita</h1>
+    <form th:action="@{/citas/update}" method="post">
+        <input type="hidden" name="id" th:value="${cita.id}">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="barbero">Barbero:</label>
+                    <select id="barbero" name="barberoId" class="form-control" required>
+                        <option th:each="barbero : ${barbero}"
+                                th:value="${barbero.id}"
+                                th:text="${barbero.nombre}"
+                                th:selected="${barbero.id} == ${cita.barbero.id}">
+                        </option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="servico">Servicio:</label>
+                    <select id="servico" name="servicioId" class="form-control" required>
+                        <option th:each="servicio : ${servicio}"
+                                th:value="${servicio.id}"
+                                th:text="${servicio.nombre}"
+                                th:selected="${servicio.id} == ${cita.servicio.id}">
+                        </option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="cliente">Cliente:</label>
+                    <select id="cliente" name="clienteId" class="form-control" required>
+                        <option th:each="cliente : ${cliente}"
+                                th:value="${cliente.id}"
+                                th:text="${cliente.nombre}"
+                                th:selected="${cliente.id} == ${cita.cliente.id}">
+                        </option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="fecha">Fecha</label>
+                    <input type="text" class="form-control" id="fecha" name="fecha" th:value="${cita.fecha}" required>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="hora">Hora</label>
+                    <select class="form-control" id="hora" name="hora" required>
+                        <option value="">Selecciona una hora</option>
+                        <option value="08:00">08:00</option>
+                        <option value="08:30">08:30</option>
+                        <option value="09:00">09:00</option>
+                        <option value="09:30">09:30</option>
+                        <option value="10:00">10:00</option>
+                        <option value="10:30">10:30</option>
+                        <option value="11:00">11:00</option>
+                        <option value="11:30">11:30</option>
+                        <option value="12:00">12:00</option>
+                        <option value="12:30">12:30</option>
+                        <option value="13:00">13:00</option>
+                        <option value="13:30">13:30</option>
+                        <option value="14:00">14:00</option>
+                        <option value="14:30">14:30</option>
+                        <option value="15:00">15:00</option>
+                        <option value="15:30">15:30</option>
+                        <option value="16:00">16:00</option>
+                        <option value="16:30">16:30</option>
+                        <option value="17:00">17:00</option>
+                        <option value="17:30">17:30</option>
+                        <option value="18:00">18:00</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="estado">Estado de la Cita</label>
+                    <select class="form-control" id="estado" name="estado" required>
+                        <option value="Pendiente">Pendiente</option>
+                        <option value="Finalizada">Finalizada</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Guardar cambios</button> |
+                    <a href="/citas">Regresar</a>
+                </div>
+            </div>
+        </div>
+    </form>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+
+        flatpickr("#fecha", {
+    inline: true,
+    minDate: "today",
+    dateFormat: "Y-m-d",
+    disable: [
+        function(date) {
+            return (date.getDay() === 0);
+        }
+    ],
+    // Aquí se configura el idioma
+    locale: "es"
+
+        });
+            const fechaInput = document.getElementById('fecha');
+            const barberoSelect = document.getElementById('barbero');
+            const horaSelect = document.getElementById('hora');
+
+            function actualizarHorasDisponibles() {
+                const fecha = fechaInput.value;
+                const barberoId = barberoSelect.value;
+
+                // Si la fecha y el barbero no están seleccionados, no hacer nada
+                if (!fecha || !barberoId) {
+                    return;
+                }
+
+                // Deshabilitar todas las opciones para empezar
+                horaSelect.querySelectorAll('option').forEach(option => {
+                    if (option.value !== "") {
+                        option.disabled = true;
+                        option.style.display = 'none'; // Ocultar para mejor UX
+                    }
+                });
+
+                // Re-habilitar la opción por defecto
+                horaSelect.querySelector('option[value=""]').disabled = false;
+                horaSelect.querySelector('option[value=""]').style.display = 'block';
+
+                // Realizar la solicitud al servidor para obtener las citas ocupadas
+                fetch(`/api/citas/ocupadas?fecha=${fecha}&barberoId=${barberoId}`)
+                    .then(response => response.json())
+                    .then(horasOcupadas => {
+                        // Recorrer todas las opciones de hora
+                        horaSelect.querySelectorAll('option').forEach(option => {
+                            const hora = option.value;
+                            if (hora && !horasOcupadas.includes(hora)) {
+                                // Si la hora no está en la lista de ocupadas, la habilita
+                                option.disabled = false;
+                                option.style.display = 'block';
+                            }
+                        });
+                    })
+                    .catch(error => console.error('Error al obtener las horas ocupadas:', error));
+            }
+
+            // Llamar a la función cada vez que se cambie la fecha o el barbero
+            fechaInput.addEventListener('change', actualizarHorasDisponibles);
+            barberoSelect.addEventListener('change', actualizarHorasDisponibles);
+
+            // Llamada inicial en caso de que los campos ya tengan valores al cargar la página
+            actualizarHorasDisponibles();
+        });
+    </script>
+</div>
+
