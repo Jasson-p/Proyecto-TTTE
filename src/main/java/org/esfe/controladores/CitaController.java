@@ -156,4 +156,11 @@ public class CitaController {
         return "redirect:/citas";
     }
 
+    @GetMapping("/details/{id}")
+    public String details(@PathVariable("id") Integer id, Model model){
+        Cita cita = citaService.buscarPorId(id).get();
+        model.addAttribute("cita", cita);
+        return "cita/details";
+    }
+
 }
