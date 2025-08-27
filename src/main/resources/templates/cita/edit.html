@@ -64,27 +64,27 @@
                     <label for="hora">Hora</label>
                     <select class="form-control" id="hora" name="hora" required>
                         <option value="">Selecciona una hora</option>
-                        <option value="08:00">08:00</option>
-                        <option value="08:30">08:30</option>
-                        <option value="09:00">09:00</option>
-                        <option value="09:30">09:30</option>
-                        <option value="10:00">10:00</option>
-                        <option value="10:30">10:30</option>
-                        <option value="11:00">11:00</option>
-                        <option value="11:30">11:30</option>
-                        <option value="12:00">12:00</option>
-                        <option value="12:30">12:30</option>
-                        <option value="13:00">13:00</option>
-                        <option value="13:30">13:30</option>
-                        <option value="14:00">14:00</option>
-                        <option value="14:30">14:30</option>
-                        <option value="15:00">15:00</option>
-                        <option value="15:30">15:30</option>
-                        <option value="16:00">16:00</option>
-                        <option value="16:30">16:30</option>
-                        <option value="17:00">17:00</option>
-                        <option value="17:30">17:30</option>
-                        <option value="18:00">18:00</option>
+                        <option value="08:00" th:selected="${#temporals.format(cita.hora, 'HH:mm') == '08:00'}">08:00</option>
+                        <option value="08:30" th:selected="${#temporals.format(cita.hora, 'HH:mm') == '08:30'}">08:30</option>
+                        <option value="09:00" th:selected="${#temporals.format(cita.hora, 'HH:mm') == '09:00'}">09:00</option>
+                        <option value="09:30" th:selected="${#temporals.format(cita.hora, 'HH:mm') == '09:30'}">09:30</option>
+                        <option value="10:00" th:selected="${#temporals.format(cita.hora, 'HH:mm') == '10:00'}">10:00</option>
+                        <option value="10:30" th:selected="${#temporals.format(cita.hora, 'HH:mm') == '10:30'}">10:30</option>
+                        <option value="11:00" th:selected="${#temporals.format(cita.hora, 'HH:mm') == '11:00'}">11:00</option>
+                        <option value="11:30" th:selected="${#temporals.format(cita.hora, 'HH:mm') == '11:30'}">11:30</option>
+                        <option value="12:00" th:selected="${#temporals.format(cita.hora, 'HH:mm') == '12:00'}">12:00</option>
+                        <option value="12:30" th:selected="${#temporals.format(cita.hora, 'HH:mm') == '12:30'}">12:30</option>
+                        <option value="13:00" th:selected="${#temporals.format(cita.hora, 'HH:mm') == '13:00'}">13:00</option>
+                        <option value="13:30" th:selected="${#temporals.format(cita.hora, 'HH:mm') == '13:30'}">13:30</option>
+                        <option value="14:00" th:selected="${#temporals.format(cita.hora, 'HH:mm') == '14:00'}">14:00</option>
+                        <option value="14:30" th:selected="${#temporals.format(cita.hora, 'HH:mm') == '14:30'}">14:30</option>
+                        <option value="15:00" th:selected="${#temporals.format(cita.hora, 'HH:mm') == '15:00'}">15:00</option>
+                        <option value="15:30" th:selected="${#temporals.format(cita.hora, 'HH:mm') == '15:30'}">15:30</option>
+                        <option value="16:00" th:selected="${#temporals.format(cita.hora, 'HH:mm') == '16:00'}">16:00</option>
+                        <option value="16:30" th:selected="${#temporals.format(cita.hora, 'HH:mm') == '16:30'}">16:30</option>
+                        <option value="17:00" th:selected="${#temporals.format(cita.hora, 'HH:mm') == '17:00'}">17:00</option>
+                        <option value="17:30" th:selected="${#temporals.format(cita.hora, 'HH:mm') == '17:30'}">17:30</option>
+                        <option value="18:00" th:selected="${#temporals.format(cita.hora, 'HH:mm') == '18:00'}">18:00</option>
                     </select>
                 </div>
             </div>
@@ -113,25 +113,28 @@
         document.addEventListener('DOMContentLoaded', function() {
 
         flatpickr("#fecha", {
-    inline: true,
-    minDate: "today",
-    dateFormat: "Y-m-d",
-    disable: [
-        function(date) {
-            return (date.getDay() === 0);
-        }
-    ],
-    // Aquí se configura el idioma
-    locale: "es"
+            inline: true,
+            minDate: "today",
+            dateFormat: "Y-m-d",
+            disable: [
+                function(date) {
+                    return (date.getDay() === 0);
+                }
+            ],
+            // Aquí se configura el idioma
+            locale: "es"
 
         });
             const fechaInput = document.getElementById('fecha');
             const barberoSelect = document.getElementById('barbero');
             const horaSelect = document.getElementById('hora');
 
+            // --- AQUI VA EL NUEVO CODIGO DE LA FUNCION ---
             function actualizarHorasDisponibles() {
                 const fecha = fechaInput.value;
                 const barberoId = barberoSelect.value;
+                // Obtiene la hora actual de la cita del modelo de Thymeleaf
+                const horaActualCita = "[[${#temporals.format(cita.hora, 'HH:mm')}]]";
 
                 // Si la fecha y el barbero no están seleccionados, no hacer nada
                 if (!fecha || !barberoId) {
@@ -157,8 +160,8 @@
                         // Recorrer todas las opciones de hora
                         horaSelect.querySelectorAll('option').forEach(option => {
                             const hora = option.value;
-                            if (hora && !horasOcupadas.includes(hora)) {
-                                // Si la hora no está en la lista de ocupadas, la habilita
+                            // Si la hora es la de la cita actual, o no está ocupada, la habilita
+                            if (hora === horaActualCita || (hora && !horasOcupadas.includes(hora))) {
                                 option.disabled = false;
                                 option.style.display = 'block';
                             }
@@ -166,6 +169,7 @@
                     })
                     .catch(error => console.error('Error al obtener las horas ocupadas:', error));
             }
+            // --- FIN DEL NUEVO CODIGO ---
 
             // Llamar a la función cada vez que se cambie la fecha o el barbero
             fechaInput.addEventListener('change', actualizarHorasDisponibles);
