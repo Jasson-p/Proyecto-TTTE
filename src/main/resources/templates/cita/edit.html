@@ -112,9 +112,12 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
 
+         // Obtén la fecha de mañana
+           const tomorrow = new Date();
+           tomorrow.setDate(tomorrow.getDate() + 1);
         flatpickr("#fecha", {
             inline: true,
-            minDate: "today",
+            minDate: tomorrow,
             dateFormat: "Y-m-d",
             disable: [
                 function(date) {
