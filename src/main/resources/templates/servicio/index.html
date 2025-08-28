@@ -1,7 +1,8 @@
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="/layouts/_mainLayout" xmlns="http://www.w3.org/1999/html">
+      layout:decorate="/layouts/_mainLayout" xmlns="http://www.w3.org/1999/html"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <title>Lista de servicios</title>
 </head>
@@ -31,10 +32,14 @@
         </script>
     </div>
 
-    <h1>Listado de servicios : </h1>
+    <h1 class="text-center">Listado de servicios</h1>
+
     <p>
+    <div sec:authorize="hasAnyAuthority('administrador', 'barbero')">
     <a th:href="@{/servicio/create}" class="btn btn-outline-primary">Nuevo servicio</a>
+</div>
     </p>
+
     <table class="table table-striped">
         <thead>
         <tr>
@@ -42,7 +47,10 @@
             <th>Nombre</th>
             <th>Precio</th>
             <th>Imagen</th>
+
+            <div sec:authorize="hasAnyAuthority('administrador', 'barbero')">
             <th>Acciones</th>
+            </div>
 
         </tr>
         </thead>
@@ -56,11 +64,14 @@
                      th:src="@{'/servicio/imagen/' + ${servicio.id}}"
                      style="max-width: 100px; max-height: 100px;"/>
             </td>
+
+            <div sec:authorize="hasAnyAuthority('administrador', 'barbero')">
             <td>
                 <a th:href="@{/servicio/details/{id} (id = ${servicio.id}) }" class="btn btn-outline-secondary">Detalles</a> |
                 <a th:href="@{/servicio/edit/{id} (id = ${servicio.id}) }" class="btn btn-outline-info">Editar</a> |
                 <a th:href="@{/servicio/remove/{id} (id = ${servicio.id}) }" class="btn btn-outline-danger">Eliminar</a>
             </td>
+            </div>
         </tr>
         </tbody>
     </table>
