@@ -1,17 +1,12 @@
 <html lang="es"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="/layouts/_mainLayout"> <!-- Asumiendo que tu layout principal está aquí -->
+      layout:decorate="/layouts/_mainLayout">
 
-<div layout:fragment="content">
-    <!-- Este es el contenido que se insertará en el _mainLayout.html -->
-    <!-- Las etiquetas <meta>, <link> para CSS y <script> para JS deben estar en _mainLayout.html -->
-    <!-- SweetAlert2 también debe cargarse en _mainLayout.html si lo usas -->
-
+<div layout:fragment="content" class="container-fluid px-4 mt-4">
     <!-- Mostrar mensaje de confirmación en caso de éxito -->
-    <div th:if="${msg != null}" class="mb-4">
+    <div th:if="${msg != null}">
         <script>
-            // Si Swal.fire está cargado en _mainLayout.html, se puede usar directamente
             Swal.fire({
                 title: "Confirmación",
                 text: '[[${msg}]]',
@@ -21,9 +16,8 @@
     </div>
 
     <!-- Mostrar mensaje de error en caso de error -->
-    <div th:if="${error != null}" class="mb-4">
+    <div th:if="${error != null}">
         <script>
-            // Si Swal.fire está cargado en _mainLayout.html, se puede usar directamente
             Swal.fire({
                 title: "Error",
                 text: '[[${error}]]',
@@ -32,44 +26,37 @@
         </script>
     </div>
 
-    <div class="max-w-4xl mx-auto bg-white rounded-lg shadow-md p-6 sm:p-8">
-        <h1 class="text-3xl font-bold text-gray-900 mb-6 border-b pb-4">Detalle del Barbero</h1>
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h1 class="h3 mb-0 text-gray-800">Detalle del Barbero</h1>
+        </div>
+        <div class="card-body">
+            <!-- Barbero Details Section -->
+            <div th:if="${barbero != null}">
+                <dl class="row">
+                    <dt class="col-sm-3">ID:</dt>
+                    <dd class="col-sm-9" th:text="${barbero.id}"></dd>
 
-        <!-- Barbero Details Section -->
-        <div th:if="${barbero != null}" class="space-y-4">
-            <div class="flex flex-col sm:flex-row sm:items-center py-2 border-b last:border-b-0">
-                <span class="font-semibold text-lg sm:w-1/4">ID:</span>
-                <span th:text="${barbero.id}" class="text-gray-700 text-lg sm:w-3/4"></span>
+                    <dt class="col-sm-3">Nombre:</dt>
+                    <dd class="col-sm-9" th:text="${barbero.nombre}"></dd>
+
+                    <dt class="col-sm-3">Apellido:</dt>
+                    <dd class="col-sm-9" th:text="${barbero.apellido}"></dd>
+
+                    <dt class="col-sm-3">Teléfono:</dt>
+                    <dd class="col-sm-9" th:text="${barbero.telefono}"></dd>
+                </dl>
             </div>
-            <div class="flex flex-col sm:flex-row sm:items-center py-2 border-b last:border-b-0">
-                <span class="font-semibold text-lg sm:w-1/4">Nombre:</span>
-                <span th:text="${barbero.nombre}" class="text-gray-700 text-lg sm:w-3/4"></span>
-            </div>
-            <div class="flex flex-col sm:flex-row sm:items-center py-2 border-b last:border-b-0">
-                <span class="font-semibold text-lg sm:w-1/4">Apellido:</span>
-                <span th:text="${barbero.apellido}" class="text-gray-700 text-lg sm:w-3/4"></span>
-            </div>
-            <div class="flex flex-col sm:flex-row sm:items-center py-2">
-                <span class="font-semibold text-lg sm:w-1/4">Teléfono:</span>
-                <span th:text="${barbero.telefono}" class="text-gray-700 text-lg sm:w-3/4"></span>
+
+            <!-- No Barbero Found Message -->
+            <div th:if="${barbero == null}" class="text-center py-4">
+                <p class="text-muted">No se encontró información para este barbero.</p>
             </div>
         </div>
-
-        <!-- No Barbero Found Message -->
-        <div th:if="${barbero == null}" class="text-center text-gray-600 py-8">
-            <p class="text-xl">No se encontró información para este barbero.</p>
-        </div>
-
-        <!-- Action Buttons -->
-        <div class="mt-8 flex flex-col sm:flex-row gap-4">
-            <a th:href="@{/barbero}"
-               class="flex-1 text-center bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md transition duration-300 ease-in-out shadow-md">
-                Regresar a la lista
-            </a>
-            <a th:if="${barbero != null}" th:href="@{/barbero/edit/{id} (id = ${barbero.id}) }"
-               class="flex-1 text-center bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded-md transition duration-300 ease-in-out shadow-md">
-                Editar Barbero
-            </a>
+        <div class="card-footer d-flex justify-content-center">
+            <!-- Action Buttons -->
+            <a th:href="@{/barbero/editar/{id} (id = ${barbero.id})}" class="btn btn-info me-2">Editar</a>
+            <a th:href="@{/barbero}" class="btn btn-secondary">Regresar</a>
         </div>
     </div>
 </div>
