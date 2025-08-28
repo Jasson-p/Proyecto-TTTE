@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -69,10 +69,13 @@
         <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                <li><a class="dropdown-item" href="#!">Settings</a></li>
-                <li><a class="dropdown-item" href="#!">Activity Log</a></li>
+                <div sec:authorize="isAnonymous()">
+                    <li><a class="dropdown-item" th:href="@{/login}">Iniciar sesión</a></li>
+                </div>
                 <li><hr class="dropdown-divider" /></li>
-                <li><a class="dropdown-item" href="#!">Logout</a></li>
+                <div sec:authorize="isAuthenticated()">
+                    <li><a class="dropdown-item" th:href="@{/logout}">Cerrar sesión</a></li>
+                </div>
             </ul>
         </li>
     </ul>
@@ -83,6 +86,7 @@
             <div class="sb-sidenav-menu">
                 <div class="nav">
                     <div class="sb-sidenav-menu-heading">TTTE</div>
+                  <div sec:authorize="hasAnyAuthority('administrador')">
                     <a class="nav-link" href="/administrador">
                         <div class="sb-nav-link-icon"><i class="fas fa-user-gear"></i></div>
                         Administrador
@@ -95,20 +99,39 @@
                         <div class="sb-nav-link-icon"><i class="fas fa-user"></i></div>
                         Clientes
                     </a>
-                    <a class="nav-link" href="/servicio">
-                        <div class="sb-nav-link-icon"><i class="fas fa-cut"></i></div>
-                        Servicios
-                    </a>
-                    <a class="nav-link" href="/citas">
-                        <div class="sb-nav-link-icon"><i class="fas fa-calendar-check"></i></div>
-                        Citas
-                    </a>
-
+                      <a class="nav-link" href="/citas">
+                          <div class="sb-nav-link-icon"><i class="fas fa-calendar-check"></i></div>
+                          Citas
+                      </a>
+                      <a class="nav-link" th:href="@{/servicio}">
+                          <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                          Servicios
+                      </a>
+                  </div>
+                    <div sec:authorize="hasAnyAuthority('barbero')">
+                        <a class="nav-link" th:href="@{/servicio}">
+                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                            Servicios
+                        </a>
+                        <a class="nav-link" href="/citas">
+                            <div class="sb-nav-link-icon"><i class="fas fa-calendar-check"></i></div>
+                            Citas
+                        </a>
+                    </div>
+                    <div sec:authorize="hasAnyAuthority('cliente')">
+                       <a class="nav-link" href="/citas">
+                            <div class="sb-nav-link-icon"><i class="fas fa-calendar-check"></i></div>
+                            Citas
+                        </a>
+                    </div>
 
                 </div>
             </div>
             <div class="sb-sidenav-footer">
-
+                <div sec:authorize="isAuthenticated()" class="small">
+                    Has iniciado como:
+                    <span class="text-light" sec:authentication="name"></span>
+                </div>
                 Sistema de citas
             </div>
         </nav>

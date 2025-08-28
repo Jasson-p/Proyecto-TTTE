@@ -2,16 +2,22 @@
 CREATE DATABASE "defaultdb";
 
 -- Selección de la base de datos
-USE defaultdb;
-
-
+use defaultdb
 
 INSERT INTO roles (nombre) VALUES ('administrador');
 INSERT INTO roles (nombre) VALUES ('barbero');
 INSERT INTO roles (nombre) VALUES ('cliente');
 
--- clave 12345
+select * from roles
+
+-- claves para los 3 usuarios 12345
+
 INSERT INTO usuarios (login, clave, status) VALUES ('sysadmin', '$2a$12$r74HSGhuNB5zqfLG3fiao.OlRzKsPv/6R5EuhLNeFqjkKM7BZJ20m', 1);
+
+INSERT INTO usuarios (login, clave, status) VALUES ('barbero', '$2a$10$ULJO1lI8nq5Q0Q9PQZhs5.U7jzkgRoCfe.CPswjLBsS7Tu.4QZrNm', 2);
+
+INSERT INTO usuarios (login, clave, status) VALUES ('cliente', '$2a$10$dlYLpMPB/4EMqTCeq8jIm.BT24hQhvGizOuYvx1QXNfHJD3mC5KYi', 3);
+
 
 CREATE TABLE usuario_rol (
     usuario_id INT NOT NULL,
@@ -26,3 +32,12 @@ SELECT u.id, r.id
 FROM usuarios u, roles r
 WHERE u.login = 'sysadmin' AND r.nombre = 'administrador';
 
+INSERT INTO usuario_rol (usuario_id, rol_id)
+SELECT u.id, r.id
+FROM usuarios u, roles r
+WHERE u.login = 'barbero' AND r.nombre = 'barbero';
+
+INSERT INTO usuario_rol (usuario_id, rol_id)
+SELECT u.id, r.id
+FROM usuarios u, roles r
+WHERE u.login = 'cliente' AND r.nombre = 'cliente';
