@@ -60,7 +60,7 @@ public class CitaController {
         Pageable pageable = PageRequest.of(currentPage, pageSize);
 
         Page<Cita> citas = citaService.buscarTodosPaginados(pageable);
-        model.addAttribute("asignaciones", citas);
+        model.addAttribute("citas", citas);
 
         int totalPages = citas.getTotalPages();
         if (totalPages > 0) {
