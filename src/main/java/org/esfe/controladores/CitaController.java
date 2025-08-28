@@ -75,6 +75,9 @@ public class CitaController {
         model.addAttribute("barbero", barberoService.obtenerTodos());
         model.addAttribute("servicio", servicioService.obtenerTodos());
 
+        // Agregamos un objeto vacío de Cita al modelo
+        model.addAttribute("cita", new Cita());
+
         return "cita/create";
     }
 
@@ -85,6 +88,7 @@ public class CitaController {
                        @RequestParam String fecha, // Agrega este parámetro
                        @RequestParam String hora,   // Agrega este parámetro
                        @RequestParam String estado, // Agrega este parámetro
+                       Model model, // <-- Importante: Cambiamos RedirectAttributes por Model
                        RedirectAttributes attributes){
 
         Barbero barbero = barberoService.buscarPorId(barberoId).orElse(null);
@@ -102,12 +106,14 @@ public class CitaController {
             cita.setEstado(estado);
 
             citaService.crearOEditar(cita);
-            attributes.addFlashAttribute("msg", "Asignación creada correctamente");
+            // <-- CAMBIO IMPORTANTE AQUÍ
+            // Pasamos el objeto 'cita' completo a la vista de confirmación
+            model.addAttribute("cita", cita);
+            return "cita/confirmacion";
         } else {
             attributes.addFlashAttribute("error", "Error al crear la cita. Verifique los datos seleccionados.");
+            return "redirect:/citas/create"; // Redirige de nuevo a la página de creación si hay un error
         }
-
-        return "redirect:/citas";
     }
 
     @GetMapping("/remove/{id}")
