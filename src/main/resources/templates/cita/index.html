@@ -26,13 +26,14 @@
         </script>
     </div>
 
-    <h1>Listado de citas </h1>
-    <a th:href="@{/citas/create}" class="btn btn-outline-primary">Nueva cita</a>
-
+       <div class="text-center mt-4">
+        <h1 class="mb-3">Puedes agendar tu cita ahora </h1>
+        <a th:href="@{/citas/create}" class="btn btn-outline-primary">Nueva cita</a>
+    </div>
     <div sec:authorize="hasAnyAuthority('administrador', 'barbero')">
     <a th:href="@{/citas/reportegeneral/attachment}" class="btn btn-outline-primary">Descargar reporte general</a>
     <a th:href="@{/citas/reportegeneral/inline}" target="_blank" class="btn btn-outline-primary">Imprimir reporte general</a>
-    </div>
+
     <table class="table table-striped">
         <thead>
         <tr>
@@ -61,8 +62,10 @@
                 <a th:href="@{/citas/remove/{id} (id = ${item.id}) }" class="btn btn-outline-danger">Eliminar</a>
             </td>
         </tr>
+
         </tbody>
     </table>
+
 
     <nav aria-label="Page navigation example">
         <ul class="pagination">
@@ -71,4 +74,5 @@
             </li>
         </ul>
     </nav>
+    </div>
 </div>
