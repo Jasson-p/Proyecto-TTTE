@@ -33,8 +33,8 @@ public class CitaService implements ICitaService {
     }
 
     @Override
-    public Page<Cita> buscarPorNombresDeServicioYCliente(String nombreServicio, String nombreCliente, Pageable pageable) {
-        return citaRepository.findByServicioNombreContainingIgnoreCaseAndClienteNombreContainingIgnoreCase(nombreServicio, nombreCliente, pageable);
+    public Page<Cita> buscarPorNombresDeServicioYCliente(String nombreServicio, String cliente, Pageable pageable) {
+        return citaRepository.findByServicioNombreContainingIgnoreCaseAndClienteContainingIgnoreCase(nombreServicio, cliente, pageable);
     }
 
     @Override

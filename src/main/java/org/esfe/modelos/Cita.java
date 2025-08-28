@@ -21,9 +21,8 @@ public class Cita {
     @JoinColumn(name = "idBarbero", nullable = false)
     private Barbero barbero;
 
-    @ManyToOne
-    @JoinColumn(name = "idCliente", nullable = false)
-    private Cliente cliente;
+    @Column(name = "cliente", nullable = false)
+    private String cliente;
 
     @Column(name = "fecha", nullable = false)
     private LocalDate fecha;
@@ -34,8 +33,12 @@ public class Cita {
     @Column(name = "estado", nullable = false)
     private String estado = "Pendiente"; // Valor predeterminado
 
-    public Cliente getCliente() {
+    public String getCliente() {
         return cliente;
+    }
+
+    public void setCliente(String cliente) {
+        this.cliente = cliente;
     }
 
     public Integer getId() {
@@ -61,9 +64,7 @@ public class Cita {
     public void setBarbero(Barbero barbero) {
         this.barbero = barbero;
     }
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
-    }
+
 
     public LocalDate getFecha() {
         return fecha;

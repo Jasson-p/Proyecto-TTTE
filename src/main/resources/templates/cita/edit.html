@@ -40,13 +40,8 @@
             <div class="col-md-6">
                 <div class="form-group">
                     <label for="cliente">Cliente:</label>
-                    <select id="cliente" name="clienteId" class="form-control" required>
-                        <option th:each="cliente : ${cliente}"
-                                th:value="${cliente.id}"
-                                th:text="${cliente.nombre}"
-                                th:selected="${cliente.id} == ${cita.cliente.id}">
-                        </option>
-                    </select>
+                    <input id="cliente" name="cliente" th:value="${cita.cliente}" class="form-control" required>
+                    </input>
                 </div>
             </div>
         </div>

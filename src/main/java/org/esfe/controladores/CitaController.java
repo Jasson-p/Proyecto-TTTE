@@ -2,11 +2,9 @@ package org.esfe.controladores;
 
 import org.esfe.modelos.Barbero;
 import org.esfe.modelos.Cita;
-import org.esfe.modelos.Cliente;
 import org.esfe.modelos.Servicio;
 import org.esfe.servicios.interfaces.IBarberoService;
 import org.esfe.servicios.interfaces.ICitaService;
-import org.esfe.servicios.interfaces.IClienteService;
 import org.esfe.servicios.interfaces.IServicioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -45,8 +43,7 @@ public class CitaController {
     @Autowired
     IServicioService servicioService;
 
-    @Autowired
-    IClienteService clienteService;
+
 
     @Autowired
     private PdfGeneratorService pdfGeneratorService;
@@ -77,7 +74,6 @@ public class CitaController {
     public String create(Model model){
         model.addAttribute("barbero", barberoService.obtenerTodos());
         model.addAttribute("servicio", servicioService.obtenerTodos());
-        model.addAttribute("cliente", clienteService.obtenerTodos());
 
         return "cita/create";
     }
@@ -85,7 +81,7 @@ public class CitaController {
     @PostMapping("/save")
     public String save(@RequestParam Integer barberoId,
                        @RequestParam Integer servicioId,
-                       @RequestParam Integer clienteId,
+                       @RequestParam String cliente,
                        @RequestParam String fecha, // Agrega este parámetro
                        @RequestParam String hora,   // Agrega este parámetro
                        @RequestParam String estado, // Agrega este parámetro
@@ -93,15 +89,14 @@ public class CitaController {
 
         Barbero barbero = barberoService.buscarPorId(barberoId).orElse(null);
         Servicio servicio = servicioService.buscarPorId(servicioId).orElse(null);
-        Cliente cliente = clienteService.buscarPorId(clienteId).orElse(null);
 
-        if(barbero != null && servicio != null && cliente != null){
+        if(barbero != null && servicio != null){
             Cita cita = new Cita();
             cita.setBarbero(barbero);
             cita.setServicio(servicio);
-            cita.setCliente(cliente);
 
             // Asigna los valores del formulario a la entidad
+            cita.setCliente(cliente); // Convierte la fecha del formulario
             cita.setFecha(java.time.LocalDate.parse(fecha)); // Convierte la fecha del formulario
             cita.setHora(java.time.LocalTime.parse(hora));   // Convierte la hora del formulario
             cita.setEstado(estado);
@@ -133,31 +128,29 @@ public class CitaController {
         Cita cita = citaService.buscarPorId(id).get();
         model.addAttribute("barbero", barberoService.obtenerTodos());
         model.addAttribute("servicio", servicioService.obtenerTodos());
-        model.addAttribute("cliente", clienteService.obtenerTodos());
         model.addAttribute("cita", cita);
         return "cita/edit";
     }
 
     @PostMapping("/update")
     public String update(@RequestParam Integer id, @RequestParam Integer barberoId, @RequestParam Integer servicioId,
-                         @RequestParam Integer clienteId,
+                         @RequestParam String cliente,
                          @RequestParam String fecha, // Agrega este parámetro
                          @RequestParam String hora,   // Agrega este parámetro
                          @RequestParam String estado,
                          RedirectAttributes attributes){
         Barbero barbero = barberoService.buscarPorId(barberoId).get();
         Servicio servicio = servicioService.buscarPorId(servicioId).get();
-        Cliente cliente = clienteService.buscarPorId(clienteId).get();
 
-        if(barbero != null && servicio != null && cliente !=null){
+        if(barbero != null && servicio != null ){
             Cita cita = new Cita();
             cita.setId(id);
             cita.setBarbero(barbero);
             cita.setServicio(servicio);
-            cita.setCliente(cliente);
 
 
             // Asigna los valores del formulario a la entidad
+            cita.setCliente(cliente);
             cita.setFecha(java.time.LocalDate.parse(fecha)); // Convierte la fecha del formulario
             cita.setHora(java.time.LocalTime.parse(hora));   // Convierte la hora del formulario
             cita.setEstado(estado);

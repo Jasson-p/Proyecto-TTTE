@@ -19,7 +19,7 @@ public interface ICitaService {
     Optional<Cita> buscarPorId(Integer id);
 
 
-    Page<Cita> buscarPorNombresDeServicioYCliente(String nombreServicio, String nombreCliente, Pageable  pageable);
+    Page<Cita> buscarPorNombresDeServicioYCliente(String nombreServicio, String cliente, Pageable  pageable);
 
     Cita crearOEditar(Cita cita);
 
